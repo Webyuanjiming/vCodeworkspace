@@ -1,0 +1,83 @@
+﻿var app = angular.module('JuJinTuiGuangApp', [
+  'ngRoute',
+  'mobile-angular-ui',
+  'mobile-angular-ui.components',
+  'mobile-angular-ui.gestures',
+  'mobile-angular-ui.core.sharedState'
+]);
+
+
+var SERVER_ADDRESS = "http://192.168.0.66:8080"; //"http://m.jujinziben.com";
+
+
+app.config(function ($routeProvider) {
+
+    $routeProvider.when('/tg', { templateUrl: '/tg/index.html', reloadOnSearch: false, controller: 'TuiGuangController' });
+});
+
+
+app.run(function ($transform, $rootScope) {
+    $rootScope.URL_ROOT = $rootScope.SERVER + "/SpringMvcMaven";//全局地址
+    $rootScope.ROOT = $rootScope.SERVER + "/m/jujin/";
+});
+
+app.controller('TuiGuangController', ['$rootScope', '$scope', '$http', '$routeParams', 'SharedState', '$location',
+    function ($rootScope, $scope, $http, $routeParamsp, SharedState, $location) {
+        $scope.reg = {};
+
+        //服务器返回的消息
+        $scope.msg = "";
+
+        $scope.usernameerror = false;
+        $scope.pwderror = false;
+
+        //获取手机验证码
+        $scope.getSmsCode = function () {
+            $scope.usernameerror = false;
+
+            var tel = $scope.reg.userName;
+            if (!checkIsMobile(tel)) {
+                $scope.usernameerror = true;
+                return false;
+            }
+            //SendSms($rootScope, $http, $scope, tel);
+        }
+
+        //注册新用户
+        $scope.register = function () {
+            if (isEmpty($scope.reg) || (!$scope.reg)) {
+                return false;
+            }
+            var tel = $scope.reg.userName;
+            if (!checkIsMobile(tel)) {
+                $scope.usernameerror = true;
+                return false;
+            }
+            if (isEmpty($scope.reg.pwd)) {
+                $scope.pwderror = true;
+                return false;
+            }
+            if ($scope.reg.pwd.length < 6 || $scope.reg.pwd.length > 16) {
+                return false;
+            }
+            if (!$scope.reg.agree) {
+                return false;
+            }
+            $rootScope.loading = true;
+            $http.post($rootScope.URL_ROOT + "/register", $scope.reg).success(function (data, status) {
+                if (checkResponse($rootScope, $scope, data)) {
+                    //注册正常跳转至投标页面
+                    $location.url("/");
+                    $rootScope.IS_LOGIN = true;
+                }
+                else {
+                    $scope.msg = data.msg;
+                }
+            }).error(function (data, status) {
+                if (checkResponse($rootScope, $scope, data)) {
+                }
+            });
+        };
+
+    }]);
+

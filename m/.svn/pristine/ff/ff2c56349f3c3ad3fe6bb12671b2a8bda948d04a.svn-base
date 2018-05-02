@@ -1,0 +1,473 @@
+app.controller('WkIndexController', ['$rootScope', '$scope', '$http', '$routeParams', '$location', 'GlobalBorrowInfo','commonService',
+    function($rootScope, $scope, $http, $routeParams, $location, borrow,service) {
+        setDefaultValue($scope, $rootScope);
+
+        /*=2016/07/08=+commonService=*/
+        service.loadAction({
+            url: $rootScope.URL_ROOT + "/home/facade"
+        },$scope).success(function(response){
+            if(response.entity){
+                //标信息
+                $scope.index_borrows = response.entity.borrows;
+                //推荐信息
+                var img_borrows=response.entity.activities;
+                //显示前两条
+                $scope.img_borrows = img_borrows.slice(0,2);
+                //轮播图
+                $scope.banners = response.entity.banners;
+            }           
+            Share($scope, $rootScope, $http);
+        });
+
+        var channelBorrowId = (!isEmpty(borrow) && !isEmpty(borrow.borrowId)) ? borrow.borrowId : ((!isEmpty(localStorage) && !isEmpty(localStorage.getItem("CHANNEL_BORROWID")) ? localStorage.getItem("CHANNEL_BORROWID") : null));
+        if ($routeParams.t == "rechage" && !isEmpty(channelBorrowId)) {
+
+            if (!isEmpty(localStorage)) {
+                localStorage.removeItem("CHANNEL_BORROWID");
+            }
+            if (!isEmpty(borrow)) {
+                borrow.borrowId = null;
+            }
+            $location.url("borrowmed?id=" + channelBorrowId);
+            return;
+        }
+    }
+]);
+
+app.directive('navhandler', ['$location',
+    function($location) {
+
+        return {
+            restrict: 'A',
+            transclude: false,
+            link: function() {
+
+                var path = $location.path();
+
+                if (path == "/") {
+                    $("navTitle").hide();
+                    $("navTool").hide();
+                } else if (path.indexOf("product") != -1) {
+                    $("navTitle").hide();
+                    $("navTool").hide();
+                } else {
+                    $("navTitle").show();
+                    $("navTool").show();
+                }
+            }
+        };
+
+    }
+]);
+
+//我的账户相关的控制器,个人账户信息概况
+app.controller('waccountController', ['$rootScope', '$scope', '$http', '$routeParams', 'SharedState', '$location', 'baseService', 'AccountInfo',
+    function($rootScope, $scope, $http, $routeParamsp, SharedState, $location, service, account) {
+
+        service.initValue($scope);
+
+        $scope.div_show = false;
+        $scope.zone = null;
+
+        //二维码
+        $scope.codeImgUrl = $rootScope.URL_ROOT + "/popularity";
+
+        $scope.show = function() {
+            if ($("#masking").length > 0) {
+                $("#masking").css('display', 'block');
+                $scope.div_show = true;
+            } else {
+                var masking = document.createElement("div");
+                masking.className = "masking-02";
+                masking.style.display = "block";
+                masking.id = "masking";
+
+                $scope.zone = $("#qrcodezone");
+                $("#qrcodezone").remove();
+
+                masking.appendChild($scope.zone[0]);
+                $(document.body).append(masking);
+                $scope.div_show = true;
+
+                $(masking).click(function() {
+                    $("#masking").css('display', 'none');
+                });
+            }
+        }
+
+        $scope.hide = function() {
+            $scope.div_show = false;
+        }
+
+        if (isEmpty($scope.showFlg)) {
+            $scope.showFlg = 0; //是否显示人民币标识
+        }
+
+        var url = service.makeUrl("/default");
+
+        service.loadEntity(url, $scope, "entity", function(response) {
+            //账户信息
+            account.data = $scope.entity;
+            Share($scope, $rootScope, $http, $scope.entity.account.user.phoneNumber, $scope.entity.account.user.userId);
+        });
+
+
+        //安全退出
+        $scope.logout = function() {
+
+            var logoutUrl = service.makeUrl("/logout");
+
+            service.execAction($scope, logoutUrl, function(object) {
+                $location.url("/");
+            });
+        }
+
+        $scope.showInterest = function() {
+            if (isEmpty($scope.entity) || isEmpty($scope.entity.account)) {
+                return true;
+            }
+            if ($scope.entity.account.interestFlg != 1) {
+                return false;
+            }
+            if (isNaN($scope.entity.account.dayInterest)) {
+                var array = ["谢天谢地您来了，别急，24小时之后再来看看",
+                    "客官您稍后，收益要24小时之后呢",
+                    "24小时之后收益才会呈现呢，淡定、淡定",
+                    "服务器刚刚开始为您加速运转，需要24小时呢",
+                    "Relax，24小时之后收益才跑到您的账户"
+                ];
+                var rand = Math.round(Math.random() * 10);
+                if (rand >= array.length) {
+                    var tmp = Math.round(rand % array.length);
+                    if (tmp > array.length) {
+                        rand = array.length - 1;
+                    } else {
+                        rand = tmp;
+                    }
+                }
+                $scope.showFlg = 0;
+                $scope.entity.account.dayInterest = array[rand];
+            } else {
+                $scope.showFlg = 1;
+            }
+            return true;
+
+        }
+
+        //开通余额生息
+        $scope.OpInterest = function() {
+            var joinInterestUrl = service.makeUrl("/joininterest");
+            service.execAction($scope, joinInterestUrl, function(object) {
+                $scope.entity.account.interestFlg = 1;
+                $scope.showFlg = 0;
+                $scope.showInterest();
+            });
+        }
+
+
+    }
+]);
+
+//余额生息
+app.controller('InterestController', ['$rootScope', '$scope', '$http', '$routeParams', 'SharedState', '$location',
+    function($rootScope, $scope, $http, $routeParamsp, SharedState, $location) {
+
+        var list = [];
+        var url = $rootScope.URL_ROOT + "/getinterest";
+
+        if ($scope.showInterest) {
+            $scope.showInterest = 1;
+        }
+
+        $http.get(url).success(function(response) {
+            if (checkResponse($rootScope, $scope, response)) {
+                $scope.entity = response.entity;
+
+                if (isNaN($scope.entity.dayInterest)) {
+                    $scope.showInterest = 1;
+                } else {
+                    $scope.showInterest = 0;
+                }
+
+            }
+        }).error(function(response, status, headers, config) {
+            checkResponse($rootScope, $scope, response);
+        });
+    }
+]);
+
+
+//自动投标设置
+app.controller('AutoInvestController', ['$rootScope', '$scope', '$http', '$location', 'baseService',
+    function($rootScope, $scope, $http, $location, service) {
+
+        service.initValue($scope, function() {
+
+
+            if (isEmpty($scope.showFlg)) {
+                $scope.showFlg = 0; //是否显示人民币标识
+            }
+            if (isEmpty($scope.curSettingPage)) {
+                $scope.curSettingPage = 1; //记录设置的当前页数
+                $scope.curInvesetPage = 1; //记录自动投标列表的页数
+
+
+                $scope.curSetTotalPage = 1; //记录设置的当前页数
+                $scope.curInvTotalPage = 1; //记录自动投标列表的页数
+            }
+
+            $scope.defaultSetting = null;
+
+        });
+        $scope.loadDefaultSetting = function() {
+            var autoUrl = service.makeUrl("/setting/auto");
+            service.loadEntity(autoUrl, $scope, "entity", function(response) {
+
+                var entity = $scope.entity;
+
+                $scope.entities = entity.settings.list;
+                $scope.records = entity.records.list;
+
+                $scope.curSetTotalPage = entity.settings.pageCount;
+                $scope.curInvTotalPage = entity.records.pageCount;
+
+                $scope.defaultSetting = entity.defaultSetting;
+
+                if (isEmpty($scope.now)) {
+                    $scope.now = service.clone($scope.entity.defaultSetting);
+                }
+            });
+        }
+
+        $scope.changeStatus = function(item) {
+            if (isEmpty(item) || isEmpty(item.id)) {
+                return;
+            }
+            var status = 1;
+            if (!item.enable) {
+                status = 0;
+            }
+            var url = service.makeUrl("/setting/statuschanged?id=" + item.id + "&status=" + status); //更新执行刷新操作
+            service.execAction($scope, url, function(object) {
+                //
+            });
+        }
+
+        if (isEmpty($scope.now)) //当前操作的对象
+        {
+            $scope.loadDefaultSetting();
+        }
+
+        //列表状态改变
+        //设置TODO:优化加载列表
+        $scope.loadSetingMore = function() {
+
+            if ($scope.curSettingPage < $scope.curSetTotalPage) {
+                $scope.curSettingPage = $scope.curSettingPage + 1;
+
+                var url = $rootScope.URL_ROOT + "/setting/getsetting?pi=" + $scope.curSettingPage + "&ps=5";
+
+                $http.get(url).success(function(response) {
+                    if (checkResponse($rootScope, $scope, response)) {
+
+                        if (!isEmpty($scope.entities) && Array.isArray($scope.entities)) //列表中已有元素
+                        {
+                            var list = response.list;
+                            // list.forEach(function(item, index, array) {
+                            //     $scope.entities.push(item);
+                            // });
+                             $scope.entities = $scope.entities.concat(list);
+                        } else {
+                            $scope.entities = response.list;
+                        }
+                    }
+                });
+            }
+        };
+
+        //自动投标记录
+        $scope.loadInvestMore = function() {
+            if ($scope.curInvesetPage < $scope.curInvTotalPage) {
+                $scope.curInvesetPage = $scope.curInvesetPage + 1;
+
+                var url = $rootScope.URL_ROOT + "/setting/autorecord?pi=" + $scope.curInvesetPage + "&ps=5";
+                $http.get(url).success(function(response) {
+                    if (checkResponse($rootScope, $scope, response)) {
+                        if (!isEmpty($scope.records) && Array.isArray($scope.records)) //列表中已有元素
+                        {
+                            var list = response.list;
+                            // list.forEach(function(item, index, array) {
+                            //     $scope.records.push(item);
+                            // });
+                            $scope.records = $scope.records.concat(list);
+                        } else {
+                            $scope.records = response.list;
+                        }
+                    }
+                });
+            }
+        };
+
+        //提交
+        $scope.updateOrAddEntity = function() {
+
+            var serviceUrl = service.makeUrl("/setting/autosetting");
+            $scope.now.borrowType = $("#selBorrowType").val();
+            if (isEmpty($scope.now.borrowType)) {
+                $scope.now.borrowType = "2,7";
+            }
+
+            service.postAction($scope, serviceUrl, function(data, status) {
+                if (isEmpty($scope.now.id)) //新增
+                {
+                    $scope.entities.unshift($scope.now); //在数组的第一个新增一个元素
+                }
+                //跳转回列表页
+                $scope.Ui.set('activeTab', 1);
+                $scope.Ui.turnOn('button1');
+            }, $scope.now);
+        }
+
+        $scope.modify = function(item) {
+            $scope.now = item;
+            $("selBorrowType").val($scope.now.borrowType);
+        }
+
+        $scope.add = function(item) {
+            $scope.now = $scope.defaultSetting;
+        }
+
+        $scope.delete = function(id) {
+
+            var delUrl = service.makeUrl("/setting/delautoinvest?id=" + id);
+            service.execAction($scope, delUrl, function(object) {
+                for (var i = 0; i < $scope.entities.length; i++) {
+                    if ($scope.entities[i].id == id) {
+                        $scope.entities.splice(i, 1); //删除这个元素,不用从服务器重新获取
+                    }
+                };
+            });
+        }
+
+    }
+]);
+
+/**投资管理**/
+app.controller('InvestinfoController', ['$rootScope', '$scope', '$http', '$routeParams', 'SharedState', '$location', 'baseService',
+    function($rootScope, $scope, $http, $routeParamsp, SharedState, $location, service) {
+
+        service.initValue($scope, $rootScope);
+        var url = service.makeUrl("/tendersummary");
+        service.loadEntity(url, $scope, "entity", function(response) {
+
+            if (isEmpty($scope.entity.repayingAccount)) {
+                $scope.entity.repayingAccount = "0.00";
+            }
+
+            if (isEmpty($scope.entity.tenderingAccount)) {
+                $scope.entity.tenderingAccount = "0.00";
+            }
+
+            if (isEmpty($scope.entity.totalEarnings)) {
+                $scope.entity.totalEarnings = "0.00";
+            }
+        });
+    }
+]);
+
+/**聚金宝**/
+app.controller('JuJinBaoController', ['$rootScope', '$scope', '$http', 'SharedState', '$location', 'baseService',
+    function($rootScope, $scope, $http, SharedState, $location, service) {
+
+        service.initValue($scope, $rootScope);
+        if ($scope.showInterest) {
+            $scope.showInterest = 1;
+        }
+
+        if (isEmpty($scope.currentDetailPage)) {
+            $scope.currentDetailPage = 1;
+            $scope.currentZhaiQuanPage = 1;
+
+            if (isEmpty($scope.totalDetailPage)) {
+                $scope.totalDetailPage = 1;
+            }
+            if (isEmpty($scope.totalZhaiQuanPage)) {
+
+                $scope.totalZhaiQuanPage = 1;
+            }
+        }
+
+        var url = service.makeUrl("/getjujinbao");
+        service.loadEntity(url, $scope, "entity", function(response) {
+            $scope.entity = response.entity;
+
+            if (isNaN($scope.entity.dayInterest)) {
+                $scope.showInterest = 1;
+            } else {
+                $scope.showInterest = 0;
+            }
+            if (isEmpty($scope.details)) {
+                $scope.details = $scope.entity.detail.list;
+            }
+
+            if (isEmpty($scope.zhaiquans)) {
+                $scope.zhaiquans = $scope.entity.zhaiQuan.list;
+            }
+
+            $scope.totalZhaiQuanPage = $scope.entity.zhaiQuan.pageCount;
+            $scope.totalDetailPage = $scope.entity.detail.pageCount;
+        });
+        $scope.loadDetailMore = function() {
+
+            if ($scope.currentDetailPage < $scope.totalDetailPage) {
+                $scope.currentDetailPage = $scope.currentDetailPage + 1;
+
+                var url = service.makeUrl("/getjujinbaolist?pi=" + $scope.currentDetailPage + "&ps=5");
+                service.loadEntities(url, $scope, "details");
+            }
+
+        };
+
+        $scope.loadZhaiQuanMore = function() {
+
+            if ($scope.currentZhaiQuanPage < $scope.totalZhaiQuanPage) {
+                $scope.currentZhaiQuanPage = $scope.currentZhaiQuanPage + 1;
+
+                var url = service.makeUrl("/getjujinbaozhaiquanlist?pi=" + $scope.currentZhaiQuanPage + "&ps=10");
+                service.loadEntities(url, $scope, "zhaiquans");
+            }
+        };
+    }
+]);
+
+
+/**
+   函数名：AccountInfoController
+   参数：
+   说明：资金数据查看
+
+   **/
+app.controller('AccountInfoController', ['$scope','AccountInfo',function($scope,account) {
+    $scope.entity = account.data;
+}]);
+
+/**
+   函数名：AccountSetController
+   参数：
+   说明：账户设置
+
+   **/
+app.controller('AccountSetController', ['$rootScope', '$scope','$location', 'baseService',
+    function($rootScope, $scope, $location, service) {
+
+        //安全退出
+        $scope.logout = function() {
+
+            var logoutUrl = service.makeUrl("/logout");
+
+            service.execAction($scope, logoutUrl, function(object) {
+                $location.url("/");
+            });
+        }
+    }
+]);

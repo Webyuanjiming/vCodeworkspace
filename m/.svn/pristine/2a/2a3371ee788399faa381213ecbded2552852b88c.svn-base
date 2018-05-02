@@ -1,0 +1,26 @@
+﻿<div ui-content-for="back">
+    <a href="javascript:window.history.go(-1)"><img src="/m/images/back_24.png" /></a>
+</div>
+<div ui-content-for="title">
+    <span>抽奖明细</span>
+</div>
+<div class="scrollable" style="background-color:#fff">
+    <div class="scrollable-content">
+        <!--1-->
+        <div style="margin-top:2em;">
+            <aside class="div_th" ng-repeat="item in entity.awardList">
+                <div class="div_th_od">
+                    <img src="img/c.png" alt="">
+                </div>
+                <div class="div_th_td">
+                    <div class="div_th_td">
+                        <p>{{item.winDate}}</p>
+                    </div>
+                    <div class="div_th_th" style="width:150px">
+                        <p>{{item.awardMsg}}</p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>

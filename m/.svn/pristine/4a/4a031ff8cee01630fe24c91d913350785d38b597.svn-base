@@ -1,0 +1,91 @@
+<div ui-content-for="back">
+    <a href="javascript:window.history.go(-1)"><img src="/m/images/back_24.png" /></a>
+</div>
+<div ui-content-for="title">
+    <span>产品详情</span>
+</div>
+
+<div class="scrollable">
+    <div class="scrollable-content section">
+        <div>
+            <div class="clearfix"></div>
+            <ui-state id='activeTab' default='1'></ui-state>
+
+            <div class="btn-group justified nav-tabs" style="margin-left:2.5%;margin-bottom:5%;width:95%">
+                <a ui-set="{'activeTab': 1}" ng-if="nav.one" class="btn btn-nav" ui-turn-on='button1' ui-state='button1' ui-default='button1=true' ui-class="{'active': button1}" ui-exclusion-group='myButtons' ng-click="typeChange('one')">
+                    <span class="wk-nav">一月标</span>
+                </a>
+
+                <a ui-set="{'activeTab': 2}" ng-if="nav.two" class="btn btn-nav" ui-turn-on='button2' ui-state='button2' ui-class="{'active': button2}" ui-exclusion-group='myButtons' ng-click="typeChange('two')"><span class="wk-nav">二月标</span></a>
+
+                <a ui-set="{'activeTab': 3}" ng-if="nav.three" class="btn btn-nav" ui-turn-on='button3' ui-state='button3' ui-class="{'active': button3}" ui-exclusion-group='myButtons' ng-click="typeChange('three')"><span class="wk-nav">三月标</span></a>
+
+                <a ui-set="{'activeTab': 4}" ng-if="nav.six" class="btn btn-nav" ui-turn-on='button4' ui-state='button4' ui-class="{'active': button4}" ui-exclusion-group='myButtons' ng-click="typeChange('six')"><span class="wk-nav">六月标</span></a>
+
+                <a ui-set="{'activeTab': 5}" ng-if="nav.twe" class="btn btn-nav" ui-turn-on='button5' ui-state='button5' ui-class="{'active': button5}" ui-exclusion-group='myButtons' ng-click="typeChange('twe')"><span class="wk-nav">十二月标</span></a>
+            </div>
+
+
+            <div id="container">
+                <nav id="Q">
+                    <aside class="product_o">
+                        <p>预期年化收益率</p>
+                        <a href="#/borrows"><span>更多项目</span></a>
+                    </aside>
+
+                    <aside class="product_div web">
+                        <div class="product_div_od">
+                            <p>{{borrow.A}}</p>
+                        </div>
+                        <div class="product_div_od" ng-if="borrow.B">
+                            <p>{{borrow.B}}</p>
+                        </div>
+                        <div class="product_div_od">
+                            <p><span ng-if="borrow.C">{{borrow.C}}</span><span style="font-size:12px">%</span></p>
+                        </div>
+                    </aside>
+
+                    <div class="ca" ng-if="showBorrowTypeNav">
+                        <ul id="ta" jj-click="jjClick()">
+                            <li class="activ" ng-click="borrowTypeChange('U')"><p class="p-active">聚金优选</p></li>
+                            <li ng-click="borrowTypeChange('N')"><p>优质散标</p></li>
+                        </ul>
+                    </div>
+
+                    <aside class="product_xd">
+
+                        <div ng-repeat="item in borrow.privileges">
+                            <div class="left"><p>{{item.name}}</div>
+                            <div class="youce"><span>{{item.value}}</span></p></div>
+                        </div>
+                         
+                        <div>
+                            <div class="left"><p>{{borrow.wanInterestMemo}}</div>
+                            <div class="youce"><span>{{borrow.wanInterest}}元</span></p></div>
+                        </div>
+                        
+                        <div>
+                            <div class="left"><p>起投金额</p></div>
+                            <div class="youce"><span>{{borrow.type==7?'1000':'50'}}元起，无上限</span></div>
+                        </div>
+                        <div>
+                            <div class="left"><p>可投金额</p></div>
+                            <div class="youce"><span>{{borrow.borrowAccountWait}}元</span></div>
+                        </div>
+                        <div>
+                            <div class="left"><p>安全保障</p></div>
+                            <div class="youce"><span><a href="http">100%本金保障计划</a></span></div>
+                        </div>
+                    </aside>
+
+
+                    <aside class="product_od">
+                        <a href="#/{{borrow.type==7?'uplaninfo':'borrowinfo'}}?id={{borrow.borrowId}}"><p>查看详情</p></a>
+                    </aside>
+
+                </nav>
+            </div>
+        </div>
+
+    </div>
+</div>    

@@ -1,0 +1,60 @@
+<!--
+    时间：2015-04-27
+    描述：主页
+-->
+<style type="text/css">
+
+</style>
+<div ui-content-for="title">
+    <span>聚金资本</span>
+</div>
+<div class="scrollable">
+    <div class="scrollable-content">
+        <div class="defind-section-img-fater" carousel>
+            <div class="container-fluid defind-section-img">
+                <ul class="img-inline">
+                    <li>
+                        <a target="_blank" href="http://mp.weixin.qq.com/s?__biz=MzA3MTM3MjA4Mw==&mid=212669019&idx=1&sn=a2ade56c97b3e71006a06f2d91f1ec40#rd"><img src="img/licaijie.png" style="width: 33.333%; height: 11em; margin: 0;float:left" /></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="http://mp.weixin.qq.com/s?__biz=MzA3MTM3MjA4Mw==&mid=210517832&idx=1&sn=a15bf7f9d2f44c57d29763f6fc23b097#rd"><img src="img/round1.png" style="width: 33.333%; height: 11em;margin: 0; float: left;" /></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="http://mp.weixin.qq.com/s?__biz=MzA3MTM3MjA4Mw==&mid=211006878&idx=1&sn=820a0647bd37043089fb7040c9747052#rd"><img src="img/round2.png" style="width: 33.333%; height: 11em;margin: 0; float: left;" /></a>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+        <div class="btn-list">
+            <ul class="list-inline list-li">
+                <li class="current-li" ng-click="car(1)">•</li>
+                <li ng-click="car(2)">•</li>
+                <li ng-click="car(3)">•</li>
+            </ul>
+        </div>
+
+        <div class="defind-section-bar" ng-repeat="item in items" ng-click="divclick(item.index)">
+            <div class="col-td-3">
+                <div style="width: 2em; height: 3em;">
+                    <img src="{{item.img}}" style="width: 100%; height: 100%;" />
+                </div>
+            </div>
+
+            <div style=" border-left: solid 1px #DDDDDD;" class="col-td-4">
+                <strong>{{item.name}}</strong><br />
+                <small class="text-muted">{{item.content}}</small>
+            </div>
+            <div class="col-td-2">
+                <strong ng-class="{true: 'font-active', false: 'font-blur'}[item.type=='可投资']">
+                    {{item.type|isnull:'--'}}
+                </strong>
+            </div>
+        </div>
+        <div style="width:100%;height: 1px;;background:#DDDDDD;"></div>
+    </div>
+    <div ui-content-for="modals">
+        <div ng-include="'/m/jujin/common.html'"></div>
+    </div>
+</div>

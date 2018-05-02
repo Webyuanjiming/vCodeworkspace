@@ -1,0 +1,94 @@
+﻿<div class="scrollable" ng-controller="moreController">
+    <div class="scrollable-content section">
+
+        <div>
+            <ui-state id='activeTab' default='1'></ui-state>
+            <div id="slideBox" class="slideBox" slide-box></div>
+            <div class="btn-group justified nav-tabs" style="margin-left:2.5%;margin-bottom:5%;width:95%">
+                <a ui-set="{'activeTab': 1}" ng-if="nav.one" class="btn btn-nav" ui-turn-on='button1' ui-state='button1' ui-default='button1=true' ui-class="{'active': button1}" ui-exclusion-group='myButtons' ng-click="typeChange('one')">
+                    <span class="wk-nav">一月标</span>
+                </a>
+
+                <a ui-set="{'activeTab': 2}" ng-if="nav.two" class="btn btn-nav" ui-turn-on='button2' ui-state='button2' ui-class="{'active': button2}" ui-exclusion-group='myButtons' ng-click="typeChange('two')"><span class="wk-nav">二月标</span></a>
+
+                <a ui-set="{'activeTab': 3}" ng-if="nav.three" class="btn btn-nav" ui-turn-on='button3' ui-state='button3' ui-class="{'active': button3}" ui-exclusion-group='myButtons' ng-click="typeChange('three')"><span class="wk-nav">三月标</span></a>
+
+                <a ui-set="{'activeTab': 4}" ng-if="nav.six" class="btn btn-nav" ui-turn-on='button4' ui-state='button4' ui-class="{'active': button4}" ui-exclusion-group='myButtons' ng-click="typeChange('six')"><span class="wk-nav">六月标</span></a>
+
+                <a ui-set="{'activeTab': 5}" ng-if="nav.twe" class="btn btn-nav" ui-turn-on='button5' ui-state='button5' ui-class="{'active': button5}" ui-exclusion-group='myButtons' ng-click="typeChange('twe')"><span class="wk-nav">十二月标</span></a>
+            </div>
+
+
+            <div id="container">
+                <aside class="sec_ce">
+                    <a href="#/{{borrow.type==7?'uplaninfo':'borrowinfo'}}?id={{borrow.borrowId}}">
+                        <p class="sec_ce_id">预期年化</p>
+                        <img src="img/zhuti.png" alt="">
+
+                        <p class="sec_ce_pc">{{borrow.borrowRate}}<span class="sec_ce_b">%</span></p>
+
+                        <div class="sec_ce_pt">
+                            <span>查看详情&gt;&gt;</span>
+                        </div>
+                    </a>
+                </aside>
+
+
+                <aside class="sec_tx" id="newbody" ng-if="borrow.privileges.length>0" ng-repeat="item in borrow.privileges">
+                    <div class="sec_txi">
+                        <img src="img/icono.png" alt="">
+                        <p>{{item.name}}</p>
+                        <span>{{item.value}}</span>
+                    </div>
+                </aside>
+
+                <aside class="sec_tx" id="newbody">
+                    <div class="sec_txi">
+                        <!--<img src="img/icono.png" alt="">-->
+                        <p style="text-indent:20px">{{borrow.repayTypeMemo}}</p>
+                        <span></span>
+                    </div>
+                </aside>
+                <aside class="sec_tx" id="newbody">
+                    <div class="sec_txi">
+                        <!--<img src="img/icono.png" alt="">-->
+                        <p style="text-indent:20px">参与风险备付计划</p>
+                        <span></span>
+                    </div>
+                </aside>
+
+                <!--产品描述说明
+                <aside class="sec_txt">
+                    <p  style="margin-left:3.5em">还款方式：每月还息,到期还本<span id="q_time"></span></p>
+                </aside>-->
+                <!--聚金优选和散标的切换,只有一个标种则不显示-->
+                <div class="ca">
+                    <ul id="ta" jj-click="jjClick()">
+                        <li class="activ" ng-click="borrowTypeChange('U')">
+                            <p class="p-active">聚金优选</p>
+                        </li>
+
+                        <li ng-click="borrowTypeChange('N')">
+                            <p>优质散标</p>
+                        </li>
+                    </ul>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!--<div class="scrollable-footer" style="margin-bottom:1em">
+                <aside class="sec_zhu" id="is_jiaru">
+                    <a href="#/wkdetail" id="di">马上加入</a>
+                </aside>
+            </div>-->
+
+        <div ui-content-for="modals">
+            <div ng-include="'/m/jujin/common.html'"></div>
+        </div>
+    </div>
+</div>

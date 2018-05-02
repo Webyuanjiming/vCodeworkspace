@@ -1,0 +1,49 @@
+<div ui-content-for="back">
+    <a href="javascript:window.history.go(-1)"><img src="/m/images/back_24.png" /></a>
+</div>
+<div ui-content-for="title">
+    <span>我的奖券</span>
+</div>
+<div class="scrollable">  
+  <div class="scrollable-content">
+    <div class='section'>
+      <ui-state id='activeTab' default='1'></ui-state>
+
+      <div class="btn-group justified nav-tabs">
+        <a ui-set="{'activeTab': 1}" 
+            ui-class="{'active': activeTab == 1}" ng-click="reloadData(1)" class="btn btn-default">未使用</a>
+
+        <a ui-set="{'activeTab': 2}" 
+            ui-class="{'active': activeTab == 2}" ng-click="reloadData(2)" class="btn btn-default">已使用</a>
+
+        <a ui-set="{'activeTab': 3}" 
+            ui-class="{'active': activeTab == 3}" ng-click="reloadData(3)" class="btn btn-default">已过期</a>
+      </div>  
+      <hr>
+      <div>
+      	
+        <div class="defind-section-bar ticket" ng-if="list[0]" style="background:url('/m/img/ticket/coupon_bg_{{item.ticketValue | img}}.png'); background-size: 100% 100%;" ng-repeat="item in list">
+         	<span class="col-td-7 ticket-left">
+         		<p>{{item.name}}</p>
+         		<h6><small>有效期至 {{item.endTime}}</small></h6>
+         		<p class="text-right" style="margin-top: 6%;"><strong style="font-size: x-large;">{{item.ticketValue}}</strong><small>%加息</small></p>
+         	</span>
+         	<span class="col-td-30">
+         		<strong>聚金券 </strong>
+         	</span>
+        </div>
+        <!--div ng-if="!list[0]" class="defind-section-bar ticket" style="background:url('/m/img/ticket/coupon_bg_blank.png'); background-size: 100% 100%;" ng-repeat="item in list">
+         	<span class="col-td-7 ticket-left">
+         		<p>没有</p>
+         		<h6><small>没有</small></h6>
+         		<p class="text-right" style="margin-top: 6%;"><strong style="font-size: x-large;">没有</strong><small>%返利</small></p>
+         	</span>
+         	<span class="col-td-30">
+         		<strong>聚金券</strong>
+         	</span>
+        </div-->
+        
+      </div>
+    </div>
+  </div>
+</div>

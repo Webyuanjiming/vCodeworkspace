@@ -1,0 +1,51 @@
+﻿<div ui-content-for="title">
+    <span>聚金资本</span>
+</div>
+<div class="scrollable">
+    <div class="scrollable-content" ng-controller="expressBorrowController">
+        <div id="jm-touch">
+            <div id="jm-slide">
+                <a href="http://mp.weixin.qq.com/s?__biz=MzA3MTM3MjA4Mw==&mid=212669019&idx=1&sn=a2ade56c97b3e71006a06f2d91f1ec40#rd" class="ws-wrap" target="_blank">
+                    <img style="height:133px" src="img/licaijie.png">
+                </a>
+
+            </div>
+            <div ng-if="!loginstatus" id="jm-home-buttons">
+                <a href="#/login" class="button login">登录</a><a href="#/register" class="button reg">注册</a><div class="clear"></div>
+            </div>
+            <div id="jm-projects">
+
+                <a href="#/borrows"><div class="hd recommend"><span>更多项目</span></div></a>
+
+                <div class="bd">
+				  <a href="#/{{entity.type==7?'uplaninfo':'borrowinfo'}}?id={{entity.borrowId}}" class="project InBid" ng-repeat="entity in expressBorrows">
+                    <div class="company">{{entity.title}}</div>
+                    <div class="process" style="width:80%">
+                        <div style="width: {{entity.accountScale}}%" class="balances {{getBorrowStyle(entity.status)}}">&nbsp;</div>
+                    </div>
+                    <div class="profit-c" style="width:80%">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><span class="profit">{{entity.borrowRate}}</span><span class="symbol">%</span></td>
+                                    <td ng-if="entity.awardScale>0"><span class="profit" style="font-size:12px"> 奖励{{formatData(entity.awardScale*12/entity.period)}}</span><span class="symbol">%</span></td>
+                                    <td ng-if="borrow.awardAccount>0"><span class="profit" style="font-size:12px"> 奖励{{formatData(entity.awardAccount)}}</span><span class="symbol">元</span></td>
+                                    <td><span class="maturity">{{entity.period}}</span><span class="symbol">个月</span></td>
+                                    <td><span class="amount">{{entity.borrowAccount/10000}}</span><span class="symbol">万</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div><div class="invest">
+                        <span class="{{getBorrowStyle(entity.status)}}">{{entity.statusMemo}}</span>
+                        <div class="{{getBorrowStyle(entity.status)}}">&nbsp;</div>
+                    </div>
+                </a>
+                </div>
+            </div>
+        </div>
+
+        <div ui-content-for="modals">
+            <div ng-include="'/m/jujin/common.html'"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,179 @@
+<div ui-content-for="title">
+    <span>标的详情</span>
+</div>
+<div class="scrollable" style="background-color:#fff">
+    <div class="scrollable-content">
+        <div id="jm-touch">
+            <div class="project-detail jm-tab">
+                <div class="name">
+                    <span>{{borrow.title}}</span>
+                    <div class="clearfix"></div>
+                    <ui-state id='activeTab' default='1'></ui-state>
+
+                    <div class="btn-group justified nav-tabs">
+                        <a ui-set="{'activeTab': 1}" class="btn btn-default" ui-turn-on='button1' ui-state='button1' ui-default='button1=true' ui-class="{'active': button1}" ui-exclusion-group='myButtons'>项目详情</a>
+                        <a ui-set="{'activeTab': 2}" class="btn btn-default" ui-turn-on='button2' ui-state='button2' ui-class="{'active': button2}" ui-exclusion-group='myButtons'>风险控制</a>
+                        <a ui-set="{'activeTab': 3}" ng-click="loadRecord()" class="btn btn-default" ui-turn-on='button3' ui-state='button3' ui-class="{'active': button3}" ui-exclusion-group='myButtons'>投标记录</a>
+                        <a ui-set="{'activeTab': 4}" class="btn btn-default" ui-turn-on='button4' ui-state='button4' ui-class="{'active': button4}" ui-exclusion-group='myButtons'>我的账户</a>
+                    </div>
+                    <div class="bd">
+
+                        <div class="detail selected tab" ui-if="activeTab == 1">
+                            <div class="profit">
+                                <div><span>年化收益%</span><strong>{{borrow.borrowRate}}%</strong></div>
+                                <div ng-if="borrow.awardScale>0"><span>年化奖励%</span><strong>{{borrow.awardScale*12/borrow.period}}%</strong></div>
+                                <div ng-if="borrow.awardAccount>0"><span>年化奖励</span><strong>{{borrow.awardAccount}}</strong></div>
+                                <div><span>融资金额（万）</span><strong>{{borrow.borrowAccount/10000}}</strong></div>
+                                <div><span>融资期限（月）</span><strong>{{borrow.period}}</strong></div>
+
+                                <div>
+                                    <span>可投金额（元）</span><strong>{{borrow.borrowAccountWait}}</strong>
+                                </div>
+
+                                <!--TODO:投标中和正常的显示不一样-->
+                                <div class="deadline-c"><span>剩余时间</span><strong data-left-time="0" class="deadline">${m}分${s}秒</strong></div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <h3>项目信息</h3>
+                            <div class="span6">
+                                <dl class="dl-horizontal">
+                                    <dt>融资人</dt>
+                                    <dd>{{borrow.borrowUser.name}}</dd>
+                                    <dt>还款方式</dt>
+                                    <dd>{{borrow.repayTypeMemo}}</dd>
+                                </dl>
+                            </div>
+
+
+                            <div class="span6">
+                                <dl class="dl-horizontal">
+                                    <dt>本期融资金额</dt>
+                                    <dd>{{borrow.borrowAccount/10000}} 万元</dd>
+                                    <dt>投标截止时间</dt>
+                                    <dd>{{borrow.endTime}}</dd>
+                                    <dt>最小投资金额（元）</dt>
+                                    <dd>{{borrow.minTenderAccount}}</dd>
+                                    <dt>最大投资金额（元）</dt>
+                                    <dd>{{borrow.maxTenderAccount==0?'不限':borrow.maxTenderAccount}}</dd>
+                                </dl>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="risk selected tab" ui-if="activeTab == 2">
+                            <div id="RiskControl">
+                                <h3>借款用途和保障方案</h3>
+                                <hr class="dashed">
+
+                                <p>&nbsp;&nbsp; {{borrow.purpose}}</p>
+                                <hr class="dashed">
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="repayments selected tab" ui-if="activeTab == 3">
+
+                            <div id="jm-investments" class="jm-tab">
+                                <div class="bd">
+                                    <div class="projects">
+                                        <div class="recove" style="height:auto">
+                                            <div class="amounts box">
+                                                <div class="amount" style="width:30%">
+                                                    <span class="label">投标人</span>
+                                                </div>
+                                                <div class="amount" style="width:30%">
+                                                    <span class="label">有效金额</span>
+                                                </div>
+                                                <div class="amount" style="width:40%">
+                                                    <span class="label">投标时间</span>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+
+
+                                            <div class="amounts box" ng-repeat="record in records">
+                                                <div class="amount" style="width:30%">
+                                                    <span style="text-align:center">{{record.nickName}}</span>
+                                                </div>
+
+                                                <div class="amount" style="width:30%"><span style="text-align:center">{{record.account}}</span></div>
+                                                <div class="amount" style="width:40%">
+                                                    <span style="text-align:center">{{record.time}}</span>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div ng-if="record_current<record_totalPage" class="more" ng-click="loadTenderRecordMore()">加载更多投资记录</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="repayments selected tab" ui-if="activeTab == 4">
+
+                            <h3>账户信息</h3>
+                            <div class="span6">
+                                <dl class="dl-horizontal">
+                                    <dt>您的账户余额</dt>
+                                    <dd>{{account.balance}}</dd>
+                                    <dt>冻结金额</dt>
+                                    <dd>{{account.frost}}</dd>
+                                    <dt>回款续投总额</dt>
+                                    <dd>{{account.continueTotal}}</dd>
+                                    <dt>可投金额（元）</dt>
+                                    <dd><span id="borrowAccountWait">{{borrow.borrowAccountWait}}</span></dd>
+                                    <dt ng-if="borrow.status==8&&borrow.directionalPwd">定向密码</dt>
+                                    <dd ng-if="borrow.status==8&&borrow.directionalPwd">
+                                        <div class="amount-c">
+                                            <input placeholder="定向密码" type="password" required="" id="directPwd" style="font-size: 20px; width: 80%">
+                                        </div>
+                                    </dd>
+                                    <dt>投资金额(元)</dt>
+                                    <dd>
+                                        <div class="amount-c">
+                                            <div>
+                                                <input placeholder="投资金额" value="100.00" type="number" name="amount" required="" id="amount" style="width: 70%; float: left; font-size: 20px">
+                                                <a href="" ng-click="setAll()" class="btn" style="float: right; background-color: #ff7b00; color: #fff; font-size: 16px; height: auto; padding: 3px">全投</a>
+                                            </div>
+                                        </div>
+                                    </dd>
+                                </dl>
+                            </div>
+
+
+                            <div class="clearfix"></div>
+                            <div ng-if="borrow.status==8&&showToolbar()" id="jm-home-buttons" style="margin-top:20px">
+                                <button id="btnInvest" ng-click="invest()" style=" width:100%;font-size:18px;color:#fff" class=" btn btn-block button login">确定投资</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div ng-if="borrow.status==8" class="scrollable-footer" style="margin-top:15px;">
+        <!--<div ng-if="!showToolbar()" class="invest-btn-c"><a href="#/recharge" class="uninvestable">余额不足，<span class="linkcss">&nbsp;立即充值&nbsp;</span></a></div>-->
+        <div ng-if="showToolbar()" class="btn-group justified nav-tabs">
+            <div class="btn btn-block btn-lg" style="width: 10%; float: left; background-color: #ff7b00;">
+                <a href="#/calc?rate={{borrow.borrowRate}}&scale={{borrow.awardScale}}&account={{borrow.awardAccount}}&period={{borrow.period}}"> <span class="text-center" style="color: #fff;">计算器</span></a>
+            </div>
+
+            <div class="btn btn-block btn-lg" style="width: 85%; float: left; background-color: #0caffe;color:#fff" ui-set="{'activeTab': 4}" ui-turn-on='button4'>
+                <span class="text-center">立即投资</span>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div ui-content-for="modals">
+        <div ng-include="'/m/jujin/common.html'"></div>
+        <div ng-include="'/m/jujin/investpanel.html'"></div>
+    </div>
+</div>

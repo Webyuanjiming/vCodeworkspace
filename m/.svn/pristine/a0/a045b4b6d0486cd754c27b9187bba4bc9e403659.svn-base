@@ -1,0 +1,3544 @@
+﻿var app = angular.module('MobileAngularUiExamples', [
+    'ngRoute',
+    'mobile-angular-ui',
+    'mobile-angular-ui.components',
+    // touch/drag feature: this is from 'mobile-angular-ui.gestures.js'
+    // it is at a very beginning stage, so please be careful if you like to use
+    // in production. This is intended to provide a flexible, integrated and and 
+    // easy to use alternative to other 3rd party libs like hammer.js, with the
+    // final pourpose to integrate gestures into default ui interactions like 
+    // opening sidebars, turning switches on/off ..
+    'mobile-angular-ui.gestures',
+    'mobile-angular-ui.core.sharedState'
+]);
+
+
+
+//var SERVER_ADDRESS = "http://m.jujinziben.com";
+var SERVER_ADDRESS = "http://localhost:8080";
+
+
+
+app.config(function($routeProvider) {
+
+    //原首页
+    $routeProvider.when('/homepage', {
+        templateUrl: '/m/jujin/homepage.html',
+        reloadOnSearch: false,
+        controller: 'homeCtrl'
+    }); //首页
+
+    //$routeProvider.when('/product', { templateUrl: '/m/jujin/default.html', reloadOnSearch: false, controller: 'expressBorrowController' });//投资页面
+    //$routeProvider.when('/default', { templateUrl: '/m/jujin/account.html', reloadOnSearch: false, controller: 'accountController' });
+    //$routeProvider.when('/adinfo', { templateUrl: '/m/jujin/adinfo.html', reloadOnSearch: false, controller: 'adinfoController' });
+    $routeProvider.when('/invest', {
+        templateUrl: '/m/jujin/invest.html',
+        reloadOnSearch: false,
+        controller: 'investController'
+    }); //回款记录
+    $routeProvider.when('/borrows', {
+        templateUrl: '/m/jujin/borrows.html',
+        reloadOnSearch: false,
+        controller: 'borrowController'
+    });
+    $routeProvider.when('/borrowtype', {
+        templateUrl: '/m/jujin/borrowtype.html',
+        reloadOnSearch: false,
+        controller: 'borrowtypeController'
+    });
+    $routeProvider.when('/borrowinfo', {
+        templateUrl: '/m/jujin/borrowinfo.html',
+        reloadOnSearch: false,
+        controller: 'borrowinfoController'
+    });
+    $routeProvider.when('/uplaninfo', {
+        templateUrl: '/m/jujin/uplaninfo.html',
+        reloadOnSearch: false,
+        controller: 'borrowinfoController'
+    }); //聚金优选详情
+
+    $routeProvider.when('/invite', {
+        templateUrl: '/m/jujin/invite.html',
+        reloadOnSearch: false,
+        controller: 'inviteController'
+    });
+    $routeProvider.when('/login', {
+        templateUrl: '/m/jujin/login.html',
+        reloadOnSearch: false,
+        controller: 'loginController'
+    });
+    $routeProvider.when('/register', {
+        templateUrl: '/m/jujin/register.html',
+        reloadOnSearch: false,
+        controller: 'registerController'
+    });
+    $routeProvider.when('/message', {
+        templateUrl: '/m/jujin/message.html',
+        reloadOnSearch: false,
+        controller: 'messageController'
+    });
+
+    $routeProvider.when('/recharge', {
+        templateUrl: '/m/jujin/recharge.html',
+        reloadOnSearch: false,
+        controller: 'rechargeController'
+    }); //充值界面
+    $routeProvider.when('/withdraw', {
+        templateUrl: '/m/jujin/withdraw.html',
+        reloadOnSearch: false,
+        controller: 'withdrawController'
+    }); //提现
+    $routeProvider.when('/recove', {
+        templateUrl: '/m/jujin/recove.html',
+        reloadOnSearch: false,
+        controller: 'recoveController'
+    }); //房产抵押
+    $routeProvider.when('/bankcard', {
+        templateUrl: '/m/jujin/bankcard.html',
+        reloadOnSearch: false,
+        controller: 'bankcardController'
+    }); //绑定银行卡
+
+    $routeProvider.when('/calc', {
+        templateUrl: '/m/jujin/calc.html',
+        reloadOnSearch: false,
+        controller: 'calcController'
+    });
+    $routeProvider.when('/line', {
+        templateUrl: '/m/jujin/line.html',
+        reloadOnSearch: false,
+        controller: 'interestSummaryController'
+    });
+    $routeProvider.when('/friendsrank', {
+        templateUrl: '/m/jujin/friendsrank.html',
+        reloadOnSearch: false,
+        controller: 'friendRankController'
+    });
+    $routeProvider.when('/accountlog', {
+        templateUrl: '/m/jujin/accountlog.html',
+        reloadOnSearch: false,
+        controller: 'AccountLogController'
+    }); //收支记录
+
+    $routeProvider.when('/attest', {
+        templateUrl: '/m/jujin/attest.html',
+        reloadOnSearch: false,
+        controller: 'AttestController'
+    }); //实名认证
+    $routeProvider.when('/awardinfo', {
+        templateUrl: '/m/jujin/awardinfo.html',
+        reloadOnSearch: false,
+        controller: 'AwardInfoController'
+    });
+    $routeProvider.when('/more', {
+        templateUrl: '/m/jujin/more.html',
+        reloadOnSearch: false,
+        controller: 'moreController'
+    });
+
+    $routeProvider.when('/changepsw', {
+        templateUrl: '/m/jujin/changepsw.html',
+        reloadOnSearch: false,
+        controller: 'changepswController'
+    }); //修改密码
+    $routeProvider.when('/findpsw', {
+        templateUrl: '/m/jujin/findpsw.html',
+        reloadOnSearch: false,
+        controller: 'findpswCtrl'
+    }); //密码找回
+
+    $routeProvider.when('/payrecord', {
+        templateUrl: '/m/jujin/payrecord.html',
+        reloadOnSearch: false,
+        controller: 'payrecordController'
+    }); //交易记录
+    $routeProvider.when('/bindbc', {
+        templateUrl: '/m/jujin/bindbc.html',
+        reloadOnSearch: false,
+        controller: 'bindbcCtrl'
+    }); //银行卡绑定
+    $routeProvider.when('/banklist', {
+        templateUrl: '/m/jujin/banklist.html',
+        reloadOnSearch: false,
+        controller: 'banklistCtrl'
+    }); //绑定银行卡列表
+    $routeProvider.when('/selectbank', {
+        templateUrl: '/m/jujin/selectbank.html',
+        reloadOnSearch: false,
+        controller: 'banklistCtrl'
+    }); //选择银行卡列表
+    $routeProvider.when('/confrec', {
+        templateUrl: '/m/jujin/confrec.html',
+        reloadOnSearch: false,
+        controller: 'confrecCtrl'
+    }); //确认充值
+
+    $routeProvider.when('/ticket', {
+        templateUrl: '/m/jujin/ticket.html',
+        reloadOnSearch: false,
+        controller: 'ticketCtrl'
+    }); //聚金券列表
+    $routeProvider.when('/setaccount', {
+        templateUrl: '/m/jujin/setaccount.html',
+        reloadOnSearch: false,
+        controller: 'setaccCtrl'
+    }); //账号设置
+
+    $routeProvider.when('/contactus', {
+        templateUrl: '/m/jujin/contactus.html',
+        reloadOnSearch: false,
+        controller: 'contactusCtrl'
+    }); //联系我们
+    $routeProvider.when('/questions', {
+        templateUrl: '/m/jujin/questions.html',
+        reloadOnSearch: false
+    }); //常见问题
+
+    $routeProvider.when('/myaward', {
+        templateUrl: '/m/jujin/myaward.html',
+        reloadOnSearch: false,
+        controller: 'myawardCtrl'
+    }); //我的奖券
+    $routeProvider.when('/myreds', {
+        templateUrl: '/m/jujin/myreds.html',
+        reloadOnSearch: false,
+        controller: 'myredsCtrl'
+    }); //我的红包
+    $routeProvider.when('/reddesc', {
+        templateUrl: '/m/jujin/reddesc.html',
+        reloadOnSearch: false,
+        controller: 'reddescCtrl'
+    }); //红包详情
+
+    $routeProvider.when('/chance', {
+        templateUrl: '/m/jujin/chance.html',
+        reloadOnSearch: false,
+        controller: 'chanceController'
+    }); //红包组详情
+    $routeProvider.when('/chancedesc', {
+        templateUrl: '/m/jujin/chancedesc.html',
+        reloadOnSearch: false,
+        controller: 'chancedescController'
+    }); //红包组详情
+
+
+    $routeProvider.when('/', {
+        templateUrl: '/m/jujin/wkindex.html',
+        reloadOnSearch: false,
+        controller: 'WkIndexController'
+    }); //新版导航页详情
+    //$routeProvider.when('/', { templateUrl: '/m/jujin/navIndex.html', reloadOnSearch: false, controller: 'WkIndexController' });//新版导航页详情
+
+    $routeProvider.when('/product', {
+        templateUrl: '/m/jujin/wkdetail.html',
+        reloadOnSearch: false,
+        controller: 'WkIndexController'
+    }); //新版导航页详情
+    $routeProvider.when('/default', {
+        templateUrl: '/m/jujin/waccount.html',
+        reloadOnSearch: false,
+        controller: 'waccountController'
+    }); //新版导航页详情
+
+
+    $routeProvider.when('/interest', {
+        templateUrl: '/m/jujin/interest/interest.html',
+        reloadOnSearch: false,
+        controller: 'InterestController'
+    }); //新版导航页详情
+    $routeProvider.when('/interestdetail', {
+        templateUrl: '/m/jujin/interest/interestdetail.html',
+        reloadOnSearch: false,
+        controller: 'InterestController'
+    }); //新版导航页详情
+
+    $routeProvider.when('/landing.html', {
+        //templateUrl: '/m/jujin/landing/mediator.html',
+        templateUrl: '/m/jujin/landing/index.html',
+        reloadOnSearch: false,
+        controller: 'MediatorController'
+    }); //推广页面
+    $routeProvider.when('/med', {
+        templateUrl: '/m/jujin/landing/index.html',
+        reloadOnSearch: false,
+        controller: 'registerController'
+    }); //推广页面
+
+    $routeProvider.when('/scoll', {
+        templateUrl: '/m/jujin/ImageScoll.html',
+        reloadOnSearch: false,
+        controller: 'PostListController'
+    }); //推广页面
+
+    $routeProvider.when('/wisdomlist', {
+        templateUrl: '/m/jujin/wisdomlist.html',
+        reloadOnSearch: false,
+        controller: 'wisdomlistController'
+    }); //短信查询
+
+    $routeProvider.when('/test', {
+        templateUrl: '/m/jujin/test/test.html',
+        reloadOnSearch: false,
+        controller: 'TestController'
+    }); //推广页面
+});
+
+app.run(function($transform, $rootScope) {
+    window.$transform = $transform;
+    $rootScope.pageSize = 5;
+
+    $rootScope.SERVER = SERVER_ADDRESS;
+    $rootScope.URL_ROOT = $rootScope.SERVER + "/api"; //全局地址
+    $rootScope.ROOT = $rootScope.SERVER + "/m/jujin/";
+
+    $rootScope.IS_LOGIN = false;
+    $rootScope.RETURN = ""; //登录后跳转的页面
+
+    $rootScope.getBorrowStyle = function(status) {
+        var memo = "";
+        switch (status) {
+            case 8: //筹款中
+                memo = "inbid";
+                break;
+            case 2: //还款中
+                memo = "inprogress";
+                break;
+            case 3: //已还完
+                memo = "done";
+                break;
+            default: //其他状态
+                memo = "inbid";
+                break;
+        }
+        return memo;
+    }
+
+});
+
+app.factory('baseService', ['$scope', '$location', '$rootScope', '$http', '$sce',
+    function($scope, $location, $rootScope, $http, $sce) {
+
+        return {
+            doGet: function(url, requestData, handler) {
+                var getUrl = url;
+                if (!isEmpty(requestData)) {
+                    getUrl = url + requestData;
+                }
+                $http.get(getUrl).success(function(data, status) {
+                    handler($rootScope, $scope, data);
+                }).error(function(data, status) {
+                    if (checkResponse($rootScope, $scope, data)) {
+                        //TODO:LOG ERROR
+                    }
+                });
+            }
+        };
+    }
+]);
+
+
+//我的账户相关的控制器,个人账户信息概况
+//现在会执行两次需要优化
+app.controller('accountController', ['$rootScope', '$scope', '$http', '$routeParams', 'SharedState', '$location',
+    function($rootScope, $scope, $http, $routeParamsp, SharedState, $location) {
+
+        if (isEmpty($scope.preExecTime)) {
+            $scope.preExecTime = new Date();
+        } else {
+            if ((new Date) - $scope.preExecTime < 5000) //5秒以内
+            {
+                return;
+            }
+        }
+        setDefaultValue($scope, $rootScope);
+        var accountUrl = $rootScope.URL_ROOT + "/default";
+        $rootScope.loading = true;
+
+        if (isEmpty($scope.is_load)) {
+            $scope.is_load = true;
+        }
+
+        $scope.showMore = function() {
+
+        }
+
+
+        $scope.logout = function() {
+            var logoutUrl = $rootScope.URL_ROOT + "/logout";
+            $http.get(logoutUrl).success(function(response) {
+                if (checkResponse($rootScope, $scope, response)) {
+                    $location.url("/");
+                }
+            }).error(function(response, status, headers, config) {
+                checkResponse($rootScope, $scope, response);
+                //Handler error
+            });
+        }
+
+        $http.get(accountUrl).success(function(response) {
+            if (checkResponse($rootScope, $scope, response)) {
+                $scope.entity = response.entity;
+
+
+                Share($scope, $rootScope, $http, response.entity.account.user.phoneNumber, response.entity.account.user.userId);
+            }
+        }).error(function(response, status, headers, config) {
+            checkResponse($rootScope, $scope, response);
+            //Handler error
+        });
+    }
+]);
+
+//产品列表控制器
+app.controller('expressBorrowController', ['$rootScope', '$scope', '$http', '$routeParams', 'SharedState',
+    function($rootScope, $scope, $http, $routeParamsp, SharedState) {
+
+
+        setDefaultValue($scope, $rootScope);
+
+        $scope.formatData = function(data) {
+            return convertToFloat(data).toFixed(2);
+        }
+
+        $scope.getBorrowType = function(borrow) {
+            return getBorrowByType(borrow);
+        }
+
+        var accountUrl = $rootScope.URL_ROOT + "/home";
+        $rootScope.loading = true;
+        $http.get(accountUrl).success(function(response) {
+
+            if (checkResponse($rootScope, $scope, response)) {
+                $scope.expressBorrows = response.list;
+                $scope.loginstatus = response.loginstatus;
+
+            }
+        }).error(function(response, status, headers, config) {
+            checkResponse($rootScope, $scope, response);
+        });
+
+    }
+]);
+
+
+function loadBorrowType($rootScope, $scope, $http, url) {
+
+    $rootScope.loading = true;
+    $http.get(url).success(function(response) {
+        if (checkResponse($rootScope, $scope, response)) {
+            if (!isEmpty($scope.type_borrows) && Array.isArray($scope.type_borrows)) //列表中已有元素
+            {
+                var list = response.list;
+                list.forEach(function(item, index, array) {
+                    $scope.type_borrows.push(item);
+                });
+            } else {
+                $scope.type_borrows = response.list;
+            }
+        }
+    }).error(function(response, status, headers, config) {
+        checkResponse($rootScope, $scope, response);
+    });
+}
+
+app.controller('borrowController', ['$rootScope', '$scope', '$http', '$routeParams', 'SharedState',
+    function($rootScope, $scope, $http, $routeParamsp, SharedState) {
+        var item = $routeParamsp.id; //加载类型
+
+        setDefaultValue($scope, $rootScope);
+        $scope.type = $routeParamsp.type;
+
+        if (isEmpty($scope.is_first_load)) {
+            $scope.is_first_load = true;
+        }
+
+        $scope.borrowType = 1;
+        var type = $scope.type;
+        if (isEmpty(type)) {
+            type = 2;
+            $scope.type = 2;
+        }
+
+        $scope.formatData = function(data) {
+            return convertToFloat(data).toFixed(2);
+        }
+
+        var ps = $rootScope.pageSize;
+        var url = $rootScope.URL_ROOT + "/borrow?id=" + $scope.type + "&pi=" + $scope.currentPage + "&ps=" + ps;
+
+
+        $scope.loadMore = function() {
+            if ($scope.currentPage < $scope.totalPageCount) {
+                $scope.currentPage = $scope.currentPage + 1;
+                var url = $rootScope.URL_ROOT + "/borrow?id=" + $scope.type + "&pi=" + $scope.currentPage + "&ps=" + ps;
+                //列表性能会不会有问题
+                loadBorrowType($rootScope, $scope, $http, url);
+            } else {
+                //TODO:提示没有更多的加载项
+            }
+        };
+
+
+        $scope.loadBorrowByType = function(type) {
+            $scope.currentPage = 1;
+            $scope.type = type;
+            if (isEmpty(type)) {
+                type = 0;
+            }
+            $scope.type_borrows = null; //重置列表
+            var url = $rootScope.URL_ROOT + "/borrow?id=" + type + "&pi=" + 1 + "&ps=" + ps;
+            loadBorrowType($rootScope, $scope, $http, url);
+        }
+
+
+        if ($scope.is_first_load) {
+            $scope.is_first_load = false;
+            //加载列表
+            loadBorrowType($rootScope, $scope, $http, url);
+        }
+
+        //跳转到列表的展示
+        angular.element(document).ready(function() {
+            if (item == 1) { //聚金优选
+                $scope.Ui.set('activeTab', 2);
+                $scope.loadBorrowByType(2);
+            } else if (item == 0) { //新专享
+
+                $scope.Ui.set('activeTab', 1);
+                $scope.loadBorrowByType(1);
+            } else if (item == 2) { //散标
+
+                $scope.Ui.set('activeTab', 0);
+                $scope.loadBorrowByType(0);
+            };
+        });
+
+    }
+]);
+
+
+//加载投标记录
+function getTenderRecord($rootScope, $scope, $http, url) {
+    $http.get(url).success(function(response) {
+        if (checkResponse($rootScope, $scope, response)) {
+
+            $scope.record_totalPage = response.pageCount;
+
+            if (isEmpty($scope.records)) {
+                $scope.records = response.list;
+            } else {
+                if (!isEmpty(response.list) && Array.isArray(response.list) && response.list.length > 0)
+                    response.list.forEach(function(item, index, array) {
+                        $scope.records.push(item);
+                    });
+
+            }
+        }
+    }).error(function(response, status, headers, config) {
+        checkResponse($rootScope, $scope, response);
+    });
+}
+
+//债权或投资信息
+function getZhaiQuanRecord($rootScope, $scope, $http, url) {
+
+    $http.get(url).success(function(response) {
+        if (checkResponse($rootScope, $scope, response)) {
+
+            $scope.record_totalPage = response.pageCount;
+
+            if (isEmpty($scope.items)) {
+                $scope.items = response.list;
+            } else {
+                if (!isEmpty(response.list) && Array.isArray(response.list) && response.list.length > 0)
+                    response.list.forEach(function(item, index, array) {
+                        $scope.items.push(item);
+                    });
+
+            }
+        }
+    }).error(function(response, status, headers, config) {
+        checkResponse($rootScope, $scope, response);
+    });
+}
+
+
+
+//加载用户账户信息
+function loadAccountInfo($rootScope, $scope, $http, url) {
+
+    $http.get(url).success(function(response) {
+        if (checkResponse($rootScope, $scope, response)) {
+            //账户余额信息
+            $scope.account = response.entity;
+        }
+    }).error(function(response, status, headers, config) {
+        checkResponse($rootScope, $scope, response);
+    });
+}
+
+//加载投资记录
+function loadTenderRecord($rootScope, $scope, $http, borrowId) {
+
+    var ps = $rootScope.pageSize;
+    if (isEmpty($scope.records)) {
+        var url = $rootScope.URL_ROOT + "/tender?id=" + borrowId + "&pi=" + 1 + "&ps=" + ps;
+        getTenderRecord($rootScope, $scope, $http, url);
+    }
+}
+
+
+function loandZhaiQuanRecord($rootScope, $scope, $http, borrowId) {
+    var ps = $rootScope.pageSize;
+    var url = $rootScope.URL_ROOT + '/uplantenderlog?id=' + borrowId + '&pi=1&ps=' + ps;
+    //聚金u选详情 start--------------------------------------------------------------------
+    if (isEmpty($scope.items)) {
+        getZhaiQuanRecord($rootScope, $scope, $http, url);
+    }
+}
+
+function loadBorrowAccountInfo($http, $rootScope, $scope, url) {
+    $http.get(url).success(function(response) {
+        if (checkResponse($rootScope, $scope, response)) {
+            if (!isEmpty(response.entity) && !isEmpty(response.entity.borrow))
+                $scope.borrow = response.entity.borrow;
+
+            if (!isEmpty(response.entity) && !isEmpty(response.entity.account)) {
+                $scope.account = response.entity.account;
+                $scope.account.coin = convertToFloat($scope.account.coin).toFixed(2);
+            }
+        }
+
+    }).error(function(response, status, headers, config) {
+        checkResponse($rootScope, $scope, response);
+    });
+
+    //加载聚金券下拉框
+    var ticketUrl = $rootScope.URL_ROOT + '/ticket?type=0&pi=1&ps=60';
+
+    var emptyTicket = {};
+    emptyTicket.ticketId = "";
+    emptyTicket.name = "请选择可用聚金券";
+
+    $http.get(ticketUrl).success(function(responseData) {
+        if (responseData.list) {
+
+            if (responseData.list.length == 0)
+                $scope.list = {};
+            else
+                $scope.list = responseData.list;
+        };
+        if (!isEmpty($scope.list) && Array.isArray($scope.list) && $scope.list.length > 0) {
+            $scope.list.unshift(emptyTicket);
+        }
+    });
+}
+
+function ShowJujinBiInfo(coin, vouRate, borrowAccountWait) {
+    if (isEmpty(coin) || isEmpty(vouRate)) {
+        return "";
+    }
+    var tenderValue = convertToFloat($("#amount").val());
+    if (tenderValue > convertToFloat(borrowAccountWait)) {
+        $("#amount").val(borrowAccountWait);
+    }
+    tenderValue = convertToFloat($("#amount").val());
+    //不用上面去的值是在超过可投金额时按照可投金额计算
+    var maxUseCoin = (tenderValue * vouRate).toFixed(2);
+    if (maxUseCoin > coin) {
+        maxUseCoin = coin;
+    }
+    var useCoinValue = maxUseCoin;
+    var msg = "使用" + useCoinValue + "元聚金币抵扣(为您节省)￥" + useCoinValue + "元";
+    $("#labjujininfo").text(msg);
+}
+
+//标的详情
+app.controller('borrowinfoController', ['$rootScope', '$scope', '$http', '$routeParams', '$location',
+    function($rootScope, $scope, $http, $routeParamsp, $location) {
+
+
+        $scope.isEventBind = false;
+        $scope.showAccountFlag = false;
+
+
+        $scope.showAccount = function() {
+            $scope.showAccountFlag = true;
+        }
+
+        $scope.hideAccount = function() {
+            $scope.showAccountFlag = false;
+        }
+
+
+
+        if (isEmpty($scope.preExecTime)) {
+            $scope.preExecTime = new Date();
+        } else {
+            if ((new Date) - $scope.preExecTime < 5000) //5秒以内
+            {
+                return;
+            }
+        }
+
+        if (isEmpty($scope.tendStatus)) {
+            $scope.tendStatus = "尚未投资";
+        }
+        setDefaultValue($scope, $rootScope);
+
+        var borrowId = $routeParamsp.id;
+        var url = $rootScope.URL_ROOT + "/borrowinfo?id=" + borrowId;
+
+        var ps = $rootScope.pageSize;
+
+        $scope.tendSuccess = false;
+
+        if (isEmpty($scope.record_current)) {
+            $scope.record_current = 1;
+            $scope.record_totalPage = 1;
+        }
+
+
+        $scope.getBorrowRate = function(borrow) {
+            if (isEmpty(borrow)) {
+                return "";
+            } else if (!isEmpty(borrow.awardScale) && convertToFloat(borrow.awardScale) > 0) {
+                return (convertToFloat(borrow.borrowRate) + convertToFloat(borrow.awardScale * 12 / borrow.period)) + "%";
+            }
+            return borrow.borrowRate + "%";
+        };
+        $scope.getBorrowRateMemo = function(borrow) {
+            if (isEmpty(borrow)) {
+                return "";
+            } else if (!isEmpty(borrow.awardScale) && borrow.awardScale > 0) {
+                return "预期年利率(含奖励)";
+            }
+            return "预期年利率";
+        }
+
+        //加载更多
+        $scope.loadTenderRecordMore = function() {
+                if ($scope.record_current < $scope.record_totalPage) {
+                    $scope.record_current = $scope.record_current + 1;
+                    var moreUrl = $rootScope.URL_ROOT + "/tender?id=" + borrowId + "&pi=" + $scope.record_current + "&ps=" + ps;
+                    getTenderRecord($rootScope, $scope, $http, moreUrl);
+
+                }
+            }
+            //加载更多债权列表
+        $scope.loadZhaiQuanRecordMore = function() {
+            if ($scope.record_current < $scope.record_totalPage) {
+                $scope.record_current = $scope.record_current + 1;
+                var moreUrl = $rootScope.URL_ROOT + '/uplantenderlog?id=' + borrowId + "&pi=" + $scope.record_current + "&ps=" + ps;
+                getZhaiQuanRecord($rootScope, $scope, $http, moreUrl);
+            }
+        }
+
+        //全投
+        $scope.setAll = function() {
+                if (!isEmpty($scope.account)) {
+                    var wait = angular.element(document.getElementById("borrowAccountWait")).text();
+                    try {
+                        var totalAmount = convertToFloat($scope.account.balance) + convertToFloat($scope.account.continueTotal);
+                        var amountElement = angular.element(document.getElementById("amount"));
+
+                        if (convertToFloat(wait) > convertToFloat(totalAmount)) {
+                            amountElement.val(totalAmount);
+                        } else {
+                            amountElement.val(wait);
+                        }
+                        ShowJujinBiInfo(convertToFloat($scope.account.coin), convertToFloat($scope.borrow.vouchersRate), $scope.borrow.borrowAccountWait);
+
+                    } catch (e) {
+                        //alert(e);
+                    }
+
+                }
+            }
+            //确定投资
+        $scope.invest = function() {
+            //数据校验
+            if (!isEmpty($scope.borrow)) {
+
+                var btn = document.getElementById("btnInvest");
+                var btnElement = angular.element(btn);
+                btnElement.attr("disabled", "true");
+                btnElement.css("background-color", "gray");
+
+                var investEntity = {};
+
+                var tenAccount = convertToFloat(angular.element(document.getElementById("amount")).val());
+                var directPwd = angular.element(document.getElementById("directPwd")).val();
+                var useCoin = 0;
+                if (!isEmpty($scope.account.coin) && !isEmpty($scope.borrow.vouchersRate)) {
+                    coin = tenAccount * convertToFloat($scope.borrow.vouchersRate);
+                    if (coin > $scope.account.coin) {
+                        coin = $scope.account.coin;
+                    }
+                    $scope.coin = coin;
+                }
+
+
+                investEntity.borrowId = $scope.borrow.borrowId;
+                if (!isEmpty(tenAccount)) {
+                    investEntity.tenderAccount = tenAccount;
+                }
+                if (!isEmpty(directPwd)) {
+                    investEntity.directionalPWD = directPwd;
+                }
+                if ($scope.borrow.directionalPwd && isEmpty(directPwd)) {
+                    $rootScope.Ui.turnOn('showinfo');
+                    $scope.msg = "请输入定向密码";
+                    $scope.title = "定向密码";
+                    return;
+                }
+                //聚金券
+                var ticketId = $("#ticketId").val();
+                if (ticketId == '0') {
+                    investEntity.ticketId = null;
+                } else {
+                    investEntity.ticketId = ticketId;
+                }
+                if (!isEmpty($scope.coin) && $scope.coin > 0) {
+                    investEntity.coin = $scope.coin;
+                }
+
+                //数据校验
+                if (!isEmpty(investEntity.tenderAccount)) {
+
+                    var minTen = convertToFloat($scope.borrow.minTenderAccount);
+                    var maxTen = convertToFloat($scope.borrow.maxTenderAccount);
+
+                    if (maxTen != 0 && maxTen < tenAccount) {
+                        $rootScope.Ui.turnOn('showinfo');
+                        $scope.msg = "投资金额大于设置的最大投资金额";
+                        $scope.title = "投资金额设定异常";
+                        return;
+                    }
+                    if (minTen != 0 && minTen > tenAccount) {
+                        $rootScope.Ui.turnOn('showinfo');
+                        $scope.msg = "投资金额小于设置的最小投资金额";
+                        $scope.title = "投资金额设定异常";
+                        return;
+                    }
+
+                    var directPwd = angular.element(document.getElementById("directPwd")).val();
+                    //tend
+                    var investUrl = $rootScope.URL_ROOT + "/tend";
+                    //$rootScope.loading = true;
+                    $http.post(investUrl, investEntity).success(function(data, status) {
+                        if (checkResponse($rootScope, $scope, data)) {
+                            btnElement.removeAttr("disabled");
+                            btnElement.css("background-color", "#0caffe");
+                            $rootScope.Ui.turnOn('showinfo');
+                            $scope.msg = "恭喜您投资成功！";
+                            $scope.title = "投资成功";
+
+                            loadBorrowAccountInfo($http, $rootScope, $scope, url);
+                        } else {
+                            btnElement.removeAttr("disabled");
+                            btnElement.css("background-color", "#0caffe");
+                        }
+                    }).error(function(data, status) {
+                        if (checkResponse($rootScope, $scope, data)) {}
+                    });
+                }
+            }
+        }
+
+        $scope.showToolbar = function() {
+
+            if (isEmpty($scope.account) || isEmpty($scope.borrow)) {
+                return false;
+            }
+
+            if ($scope.borrow.status != 8) {
+                return false;
+            }
+            if ($scope.borrow.uplanBorrowsIsShow == 1) {
+                return false;
+            }
+            return true;
+        }
+
+        //add by wangning  2015-06-16
+        $scope.showInvest = function() {
+                if (isEmpty($scope.account) || isEmpty($scope.borrow)) {
+                    return false;
+                }
+                if ($scope.borrow.status != 8) {
+                    return false;
+                }
+                if ($scope.borrow.uplanBorrowsIsShow == 1) {
+                    return false;
+                }
+
+                if (isEmpty($scope.account.balance) || isEmpty($scope.account.continueTotal) || isEmpty($scope.borrow.minTenderAccount)) {
+
+                    return false;
+                }
+                var balance = convertToFloat($scope.account.balance) + convertToFloat($scope.account.continueTotal);
+                var minAmount = convertToFloat($scope.borrow.minTenderAccount);
+                return balance > minAmount;
+
+            }
+            //是否显示聚金币
+        $scope.ShowJujinBi = function() {
+            if (isEmpty($scope.account) || isEmpty($scope.borrow)) {
+                return false;
+            }
+            if (!$scope.isEventBind) {
+                $("#amount").unbind('keyup').keyup(function() {
+                    $scope.isEventBind = true;
+                    ShowJujinBiInfo(convertToFloat($scope.account.coin), convertToFloat($scope.borrow.vouchersRate), $scope.borrow.borrowAccountWait);
+                });
+                ShowJujinBiInfo(convertToFloat($scope.account.coin), convertToFloat($scope.borrow.vouchersRate), $scope.borrow.borrowAccountWait);
+            }
+
+            var vouRate = $scope.borrow.vouchersRate;
+            var coin = $scope.account.coin;
+
+            return !isEmpty(vouRate) && !isEmpty(coin);
+        }
+
+
+
+        //加载投资记录
+        $scope.loadRecord = function() {
+                $scope.showAccountFlag = false;
+
+                loadTenderRecord($rootScope, $scope, $http, borrowId);
+            }
+            //加载债权列表
+        $scope.loandZhaiQuan = function() {
+            $scope.showAccountFlag = false;
+            loandZhaiQuanRecord($rootScope, $scope, $http, borrowId);
+        }
+
+
+        loadBorrowAccountInfo($http, $rootScope, $scope, url);
+
+
+    }
+]);
+
+
+
+function loadInviteList($rootScope, $scope, $http, url) {
+
+    $rootScope.loading = true;
+    $http.get(url).success(function(response) {
+        if (checkResponse($rootScope, $scope, response)) {
+            $scope.pageCount = 1;
+            $scope.inviteReward = response.entity.inviteReward;
+            $scope.memo = response.entity.memo;
+
+            if (!isEmpty(response.entity.invets.pageCount)) {
+                $scope.totalPageCount = response.entity.invets.pageCount;
+            }
+
+            if (!isEmpty($scope.invites) && Array.isArray($scope.invites)) //列表中已有元素
+            {
+                var list = response.entity.invets.list;
+                list.forEach(function(item, index, array) {
+                    $scope.invites.push(item);
+                });
+            } else {
+                $scope.invites = response.entity.invets.list;
+            }
+        }
+    }).error(function(response, status, headers, config) {
+        checkResponse($rootScope, $scope, response);
+    });
+}
+
+
+//邀请人列表
+app.controller('inviteController', ['$rootScope', '$scope', '$http', '$routeParams',
+    function($rootScope, $scope, $http, $routeParamsp) {
+
+        setDefaultValue($scope, $rootScope);
+        var ps = $rootScope.pageSize;
+
+
+        $scope.qrcodeimgUrl = SERVER_ADDRESS + "/api/popularity";
+
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            width: 96,
+            height: 96
+        });
+
+
+        $scope.ShareTimeLine = function() {};
+        $scope.loadMore = function() {
+            if ($scope.currentPage < $scope.totalPageCount) {
+                $scope.currentPage = $scope.currentPage + 1;
+                var url = $rootScope.URL_ROOT + "/invite?pi=" + $scope.currentPage + "&ps=" + ps;
+                //列表性能会不会有问题
+                loadInviteList($rootScope, $scope, $http, url);
+            } else {
+                //TODO:提示没有更多的加载项
+            }
+        };
+
+        $scope.loadInvites = function() {
+
+            if (isEmpty($scope.invites)) {
+                var url = $rootScope.URL_ROOT + "/invite?pi=1" + "&ps=" + ps;
+                loadInviteList($rootScope, $scope, $http, url);
+            }
+        };
+
+        $scope.randomnum = "?t=" + new Date().getTime();
+
+
+    }
+]);
+
+
+//充值列表
+app.controller('rechargeController', ['$rootScope', '$scope', '$http', '$routeParams', '$location',
+    function($rootScope, $scope, $http, $routeParamsp, $location) {
+        $http.get($rootScope.URL_ROOT + '/accountinfo')
+            .success(function(responseData) {
+                $scope.balance = responseData.entity.balance;
+            });
+        $scope.recharge = function() {
+            //提交充值
+            $rootScope.amout = $scope.rechargeValue;
+            //跳转
+            $location.url("/confrec");
+        };
+    }
+]);
+
+
+function loadInvestList($rootScope, $scope, $http, url) {
+
+    $rootScope.loading = true;
+    $http.get(url).success(function(response) {
+        if (checkResponse($rootScope, $scope, response)) {
+
+            $scope.totalPageCount = 0; //总页数
+            if (typeof($scope.invets) != 'undefined' && $scope.invets != null && Array.isArray($scope.invets)) //列表中已有元素
+            {
+                var list = response.list;
+                list.forEach(function(item, index, array) {
+                    $scope.invets.push(item);
+                });
+            } else {
+                $scope.invets = response.list;
+                $scope.totalPageCount = response.pageCount;
+            }
+        }
+    }).error(function(response, status, headers, config) {
+        checkResponse($rootScope, $scope, response);
+    });
+}
+
+//investController
+//已投项目
+app.controller('investController', ['$rootScope', '$scope', '$http', '$routeParams',
+    function($rootScope, $scope, $http, $routeParamsp) {
+
+        if (isEmpty($scope.preExecTime)) {
+            $scope.preExecTime = new Date();
+        } else {
+            if ((new Date) - $scope.preExecTime < 5000) //5秒以内
+            {
+                return;
+            }
+        }
+
+
+        setDefaultValue($scope, $rootScope);
+        var type = $routeParamsp.type;
+
+        if (isEmpty(type)) {
+            type = 0;
+            $scope.type = type;
+        } else {
+            if (type == 2) {
+                $scope.activeTab = 2;
+                $rootScope.Ui.turnOn('button3');
+            }
+        }
+
+        var ps = $rootScope.pageSize;
+        var url = $rootScope.URL_ROOT + "/invest?type=" + type + "&pi=" + $scope.currentPage + "&ps=" + ps;
+
+
+        $scope.loadMore = function() {
+            if ($scope.currentPage < $scope.totalPageCount) {
+                $scope.currentPage = $scope.currentPage + 1;
+                var url = $rootScope.URL_ROOT + "/invest?type=" + type + "&pi=" + $scope.currentPage + "&ps=" + ps;
+                //列表性能会不会有问题
+                loadInvestList($rootScope, $scope, $http, url);
+            } else {
+                //TODO:提示没有更多的加载项
+            }
+        };
+
+        $scope.loadInvestByType = function(type) {
+            $scope.invets = null;
+            $scope.type = type;
+            var url = $rootScope.URL_ROOT + "/invest?type=" + type + "&pi=" + $scope.currentPage + "&ps=" + ps;
+            loadInvestList($rootScope, $scope, $http, url);
+        };
+
+
+        if (isEmpty($scope.invets)) {
+            loadInvestList($rootScope, $scope, $http, url);
+        }
+    }
+]);
+
+
+function formatMessage($sce, msg) {
+    if (isEmpty(msg) || isEmpty(msg.content)) {
+        return msg;
+    }
+    msg.content = $sce.trustAsHtml("     \t\t正文：" + msg.content);
+    return msg;
+}
+
+function loadMessage($rootScope, $scope, $http, url, $sce) {
+    $rootScope.loading = true;
+    $http.get(url).success(function(response) {
+        if (checkResponse($rootScope, $scope, response)) {
+            var list = response.list;
+            if (isEmpty($scope.messages) && Array.isArray($scope.messages)) //列表中已有元素
+            {
+                list.forEach(function(item, index, array) {
+                    $scope.messages.push(formatMessage($sce, item));
+                });
+            } else {
+                $scope.messages = [];
+                list.forEach(function(item, index, array) {
+                    $scope.messages.push(formatMessage($sce, item));
+                });
+            }
+        }
+    }).error(function(response, status, headers, config) {
+        checkResponse($rootScope, $scope, response);
+    });
+}
+
+
+//我的消息
+app.controller('messageController', ['$rootScope', '$scope', '$http', '$routeParams', '$sce',
+    function($rootScope, $scope, $http, $routeParamsp, $sce) {
+
+        setDefaultValue($scope, $rootScope);
+        var ps = $rootScope.pageSize;
+
+        var url = $rootScope.URL_ROOT + "/msg?pi=" + $scope.currentPage + "&ps=" + ps;
+
+        $scope.loadMore = function(t) {
+            if ($scope.currentPage < $scope.totalPageCount) {
+                $scope.currentPage = $scope.currentPage + 1;
+                var url = $rootScope.URL_ROOT + "/msg?pi=" + $scope.currentPage + "&ps=" + ps;
+                //列表性能会不会有问题
+                loadMessage($rootScope, $scope, $http, url, $sce);
+            } else {
+                //TODO:提示没有更多的加载项
+            }
+        };
+
+        if (typeof($scope.messages) == "undefined" || $scope.messages == null) {
+            loadMessage($rootScope, $scope, $http, url, $sce);
+        }
+    }
+]);
+
+
+
+//回款计划
+//TODO:列表会执行两遍....
+function loadRecove($rootScope, $scope, $http, url) {
+
+    $rootScope.loading = true;
+    $http.get(url).success(function(response) {
+
+        if (checkResponse($rootScope, $scope, response)) {
+            if (!isEmpty($scope.recoves) && Array.isArray($scope.recoves)) //列表中已有元素
+            {
+                var list = response.list;
+                list.forEach(function(item, index, array) {
+                    $scope.recoves.push(item);
+                });
+            } else {
+                $scope.recoves = response.list;
+            }
+        }
+    }).error(function(response, status, headers, config) {
+        checkResponse($rootScope, $scope, response);
+    });
+}
+
+//回款计划
+app.controller('recoveController', ['$rootScope', '$scope', '$http', '$routeParams',
+    function($rootScope, $scope, $http, $routeParamsp) {
+
+        if (isEmpty($scope.preExecTime)) {
+            $scope.preExecTime = new Date();
+        } else {
+            if ((new Date) - $scope.preExecTime < 5000) //5秒以内
+            {
+                return;
+            }
+        }
+
+
+        setDefaultValue($scope, $rootScope);
+        var ps = $rootScope.pageSize;
+
+        var url = $rootScope.URL_ROOT + "/recove?pi=" + $scope.currentPage + "&ps=" + ps;
+
+        var borrowId = $routeParamsp.id;
+
+        if (!isEmpty(borrowId)) {
+            url = $rootScope.URL_ROOT + "/recove?pi=" + $scope.currentPage + "&borrowId=" + borrowId + "&ps=" + ps;
+        }
+
+        $scope.loadMore = function(t) {
+            if ($scope.currentPage < $scope.totalPageCount) {
+                $scope.currentPage = $scope.currentPage + 1;
+                var url = $rootScope.URL_ROOT + "/recove?pi=" + $scope.currentPage + "&ps=" + ps;
+                //列表性能会不会有问题
+                loadRecove($rootScope, $scope, $http, url);
+            } else {
+                //TODO:提示没有更多的加载项
+            }
+        };
+
+        if (isEmpty($scope.recoves)) {
+            loadRecove($rootScope, $scope, $http, url);
+        }
+
+
+    }
+]);
+
+
+
+//查询标详情的回款计划
+app.controller('accountBorrowRecoverController', ['$rootScope', '$scope', '$http', '$routeParams',
+    function($rootScope, $scope, $http, $routeParamsp) {
+
+        setDefaultValue($scope, $rootScope);
+
+        $scope.borrow_id = encodeURI($routeParamsp.borrow_id);
+
+        var url = $rootScope.URL_ROOT + "/account/recover/borrow?borrow_id" + $scope.borrow_id;
+
+        $http.get(url).success(function(response) {
+            if (checkResponse($rootScope, $scope, response)) {
+                $scope.borrow_recover = response.entity;
+            }
+        }).error(function(response, status, headers, config) {
+            checkResponse($rootScope, $scope, response);
+            //Handler error
+        });
+    }
+]);
+
+
+//查询用户的收益排名(每天统计一次)
+app.controller('incomeController', ['$rootScope', '$scope', '$http', '$routeParams',
+    function($rootScope, $scope, $http, $routeParamsp) {
+
+        $scope.borrow_id = encodeURI($routeParamsp.borrow_id);
+
+        // User agent displayed in home page
+        $scope.userAgent = navigator.userAgent;
+
+        // Needed for the loading screen
+        $rootScope.$on('$routeChangeStart', function() {
+            $rootScope.loading = true;
+        });
+
+        $rootScope.$on('$routeChangeSuccess', function() {
+            $rootScope.loading = false;
+        });
+
+
+        var accountUrl = $rootScope.URL_ROOT + "/income";
+
+        $http.get(accountUrl).success(function(response) {
+            $scope.income_rank = response;
+        }).error(function(data, status, headers, config) {
+            // Handle the error
+        });
+
+    }
+]);
+
+//提现
+app.controller('withdrawController', ['$rootScope', '$scope', '$http', '$routeParams', '$location', '$sce',
+    function($rootScope, $scope, $http, $routeParamsp, $location, $sce) {
+
+
+
+
+        $rootScope.RETURN = "#/withdraw";
+        var url = $rootScope.URL_ROOT + "/getWithDrawInfo";
+
+        $http.get(url).success(function(response) {
+            if (checkResponse($rootScope, $scope, response)) {
+                $scope.withdrawEntity = response.entity;
+            }
+        }).error(function(response, status, headers, config) {
+            checkResponse($rootScope, $scope, response);
+        });
+
+        $scope.withdraw = function() {
+
+            if (convertToFloat($scope.amount) == 0 || convertToFloat($scope.amount) < 0) {
+                $rootScope.Ui.turnOn('showinfo');
+                $scope.msg = "请检查提现金额设置，金额必须大于100元。";
+                $scope.title = "请检查输入";
+                return false;
+            }
+
+            var entity = {};
+            entity.money = $scope.amount;
+            entity.cashPwd = encodeURI($scope.password);
+            $rootScope.loading = true;
+            $http.post($rootScope.URL_ROOT + "/withdraw", entity).success(function(data, status) {
+                if (checkResponse($rootScope, $scope, data)) {
+                    $rootScope.Ui.turnOn('showinfo');
+                    $scope.msg = "恭喜您，提现申请已提交成功，请等待工作人员的审批。";
+                    $scope.title = "提现成功";
+                    //注册正常跳转至投标页面
+                    $location.url("default");
+                } else {
+                    $rootScope.Ui.turnOn('showinfo');
+
+                    if (!isEmpty(data.msg)) {
+                        $scope.msg = data.msg;
+                    } else {
+                        $scope.msg = "提现过程失败，请留意金额是否发生变化，如有疑问请与客服联系。";
+                    }
+                    $scope.title = "提现失败";
+                }
+
+            }).error(function(data, status) {
+                if (checkResponse($rootScope, $scope, data)) {}
+            });
+
+        };
+    }
+]);
+
+
+//绑定提现银行卡
+app.controller('bankcardController', function($rootScope, $scope, $http, $routeParams) {
+
+    $rootScope.RETURN = "#/bankcard";
+    var url = $rootScope.URL_ROOT + "/bank";
+
+    $http.get(url).success(function(response) {
+        if (checkResponse($rootScope, $scope, response)) {
+            $scope.bankCard = response.entity;
+
+        }
+    }).error(function(response, status, headers, config) {
+        checkResponse($rootScope, $scope, response);
+    });
+
+});
+
+
+
+//绑定提现银行卡
+app.controller('testController', function($rootScope, $scope, $http, $routeParams) {
+
+    $rootScope.RETURN = "#/bankcard";
+    var url = $rootScope.URL_ROOT + "/bank";
+
+    $http.get(url).success(function(response) {
+        if (checkResponse($rootScope, $scope, response)) {
+            $scope.bankCard = response.entity;
+
+        }
+    }).error(function(response, status, headers, config) {
+        checkResponse($rootScope, $scope, response);
+    });
+
+});
+
+
+//从微信登录
+app.controller('fromWeiXinController', function($rootScope, $scope, $http, $routeParams) {
+
+    $rootScope.RETURN = "#/bankcard";
+    var url = $rootScope.URL_ROOT + "/bank";
+
+    $http.get(url).success(function(response) {
+        if (checkResponse($rootScope, $scope, response)) {
+            $scope.bankCard = response.entity;
+
+        }
+    }).error(function(response, status, headers, config) {
+        checkResponse($rootScope, $scope, response);
+    });
+
+});
+
+
+function convertToFloat(data) {
+    if (!isEmpty(data) && !isNaN(data)) {
+        return parseFloat(data);
+    }
+    return 0;
+}
+
+//收益计算器
+app.controller('calcController', function($rootScope, $scope, $http, $routeParams) {
+
+
+    $scope.rate = 12;
+    $scope.scale = 0;
+    $scope.account = 0;
+    $scope.period = 12;
+
+
+    $scope.rate2 = 4.4480;
+    $scope.rate3 = 0.35;
+
+    if (!isEmpty($routeParams.rate)) {
+        $scope.rate = $routeParams.rate;
+    }
+    if (!isEmpty($routeParams.scale)) {
+        $scope.scale = $routeParams.scale;
+    }
+    if (!isEmpty($routeParams.account)) {
+        $scope.account = $routeParams.account;
+    }
+    if (!isEmpty($routeParams.period)) {
+        $scope.period = $routeParams.period;
+    }
+
+
+    var tmpCapital = 5000;
+    if ($routeParams.captial) {
+        $scope.captial = $routeParams.captial;
+        tmpCapital = $routeParams.captial;
+    }
+
+    var account = convertToFloat($scope.account);
+    var rate = convertToFloat($scope.rate);
+    var period = convertToFloat($scope.period);
+    var reward = convertToFloat($scope.scale);
+
+    $scope.reward = reward;
+
+
+
+    if (reward != 0) {
+        $scope.interest1 = (account + (tmpCapital * (rate + reward) * period / 1200)).toFixed(2);
+    } else {
+        $scope.interest1 = (account + (tmpCapital * rate * period / 1200)).toFixed(2);
+    }
+
+    $scope.interest2 = (tmpCapital * $scope.rate2 * period / 1200).toFixed(2);
+    $scope.interest3 = (tmpCapital * $scope.rate3 * period / 1200).toFixed(2);
+
+
+    //f.toFixed(2);
+    $scope.calcInterest = function() {
+
+        var capitalElement = document.getElementById("capitalInput");
+        if (!isEmpty(capitalElement)) {
+            var captial = angular.element(capitalElement).val();
+
+
+            if (!isEmpty(captial) && captial != "") {
+
+                var captialValue = parseFloat(captial);
+
+                var interest1 = 0;
+
+
+                if (reward != 0) {
+                    interest1 = (account + (captialValue * (rate + reward) * period / 1200)).toFixed(2);
+                } else {
+                    interest1 = (account + (captialValue * rate * period / 1200)).toFixed(2);
+                }
+
+                var interest2 = (captialValue * $scope.rate2 * period / 1200).toFixed(2);
+                var interest3 = (captialValue * $scope.rate3 * period / 1200).toFixed(2);
+
+
+                $scope.interest1 = interest1;
+                $scope.interest2 = interest2;
+                $scope.interest3 = interest3;
+            }
+        }
+
+    };
+
+});
+
+
+
+//用户收益曲线
+app.controller('interestSummaryController', ['$rootScope', '$scope', '$http', '$routeParams',
+    function($rootScope, $scope, $http, $routeParamsp) {
+
+        if (isEmpty($scope.preExecTime)) {
+            $scope.preExecTime = new Date();
+        } else {
+            if ((new Date) - $scope.preExecTime < 5000) //5秒以内
+            {
+                return;
+            }
+        }
+
+
+        setDefaultValue($scope, $rootScope);
+
+        var randomScalingFactor = function() {
+            return Math.round(Math.random() * 100)
+        };
+        var lineChartData = {
+            datasets: [{
+                label: "聚金资本",
+                fillColor: "#FF6F41",
+                strokeColor: "#FF6F41",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#FF6F41",
+                pointHighlightFill: "#FF6F41",
+                pointHighlightStroke: "rgba(220,220,220,1)"
+            }, {
+                label: "货币基金",
+                fillColor: "#9DD1FF",
+                strokeColor: "#9DD1FF",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#9DD1FF",
+                pointHighlightFill: "#9DD1FF",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+            }, {
+                label: "银行活期",
+                fillColor: "#62BBFF",
+                strokeColor: "#62BBFF",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#62BBFF",
+                pointHighlightFill: "#62BBFF",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+            }]
+        }
+
+        $scope.randomScalingFactor = randomScalingFactor;
+        var url = $rootScope.URL_ROOT + "/rank";
+
+        $http.get(url).success(function(response) {
+            if (checkResponse($rootScope, $scope, response)) {
+
+                lineChartData.labels = response.entity.labels;
+                lineChartData.datasets[0].data = response.entity.points;
+                lineChartData.datasets[1].data = response.entity.points1;
+                lineChartData.datasets[2].data = response.entity.points2;
+
+
+                $scope.lineChartData = lineChartData;
+
+                $scope.account = response.entity.account;
+                $scope.totalIntervest = response.entity.totalIntervest;
+                $scope.totalIntervest1 = response.entity.totalIntervest1;
+                $scope.totalIntervest2 = response.entity.totalIntervest2;
+
+                var ctx = document.getElementById("canvas").getContext("2d");
+                window.myLine = new Chart(ctx).Line($scope.lineChartData, {
+                    responsive: true
+                });
+            }
+        }).error(function(response, status, headers, config) {
+            checkResponse($rootScope, $scope, response);
+        });
+
+        $scope.getRankImage = function() {
+            if ($scope.account.rank == 1) {
+                return "../images/rank1.png";
+            } else if ($scope.account.rank == 2) {
+                return "../images/rank2.png";
+            } else {
+                return "../images/rank3.png";
+            }
+        }
+    }
+]);
+
+
+//好友收益
+app.controller('friendRankController', ['$rootScope', '$scope', '$http', '$routeParams',
+    function($rootScope, $scope, $http, $routeParamsp) {
+
+        if (isEmpty($scope.preExecTime)) {
+            $scope.preExecTime = new Date();
+        } else {
+            if ((new Date) - $scope.preExecTime < 5000) //5秒以内
+            {
+                return;
+            }
+        }
+
+
+        var url = $rootScope.URL_ROOT + "/friendsrank";
+
+        $http.get(url).success(function(response) {
+            if (checkResponse($rootScope, $scope, response)) {
+                var totalCollections = response.list;
+
+                $scope.account = totalCollections.shift();
+                $scope.ranks = totalCollections;
+            }
+        }).error(function(response, status, headers, config) {
+            checkResponse($rootScope, $scope, response);
+        });
+
+        $scope.getRankImage = function(rank) {
+            if (rank == 1) {
+                return "../images/rank1.png";
+            } else if (rank == 2) {
+                return "../images/rank2.png";
+            } else {
+                return "../images/rank3.png";
+            }
+        }
+
+    }
+]);
+
+
+
+//好友收益
+app.controller('HomeController', ['$rootScope', '$scope', '$http', '$routeParams', '$location',
+    function($rootScope, $scope, $http, $routeParamsp, $location) {
+        //图标切换
+        var active = "#FF6666";
+        var hover = "#B1B3B5";
+
+        $rootScope.dl1 = {
+            "icon": "active",
+            "color": active
+        }
+        $rootScope.dl2 = {
+            "icon": "hover",
+            "color": hover
+        }
+        $rootScope.dl3 = {
+            "icon": "hover",
+            "color": hover
+        }
+        $rootScope.dl4 = {
+            "icon": "hover",
+            "color": hover
+        }
+        var activetype = {
+            "icon": "active",
+            "color": active
+        }
+        var hovertype = {
+            "icon": "hover",
+            "color": hover
+        }
+
+        $scope.goInvite = function() {
+            $rootScope.dl1 = activetype;
+            $rootScope.dl2 = hovertype;
+            $rootScope.dl3 = hovertype;
+            $rootScope.dl4 = hovertype;
+            $location.url("/");
+        };
+        $scope.goInvest = function() {
+            $rootScope.dl1 = hovertype;
+            $rootScope.dl2 = activetype;
+            $rootScope.dl3 = hovertype;
+            $rootScope.dl4 = hovertype;
+            $location.path("product");
+        };
+        $scope.goAccount = function() {
+            $rootScope.dl1 = hovertype;
+            $rootScope.dl2 = hovertype;
+            $rootScope.dl3 = activetype;
+            $rootScope.dl4 = hovertype;
+            $location.url("default");
+
+        };
+        $scope.goAttest = function() {
+            $rootScope.dl1 = hovertype;
+            $rootScope.dl2 = hovertype;
+            $rootScope.dl3 = hovertype;
+            $rootScope.dl4 = activetype;
+            $location.url("more");
+        };
+
+        $rootScope.IndexShowNav = 0;
+
+        $rootScope.ShowNav = function() {
+            var path = $location.path();
+
+            if (path == "/") {
+                return false;
+            } else if (path.indexOf("product") != -1) {
+                return false;
+            } else if (path.indexOf("default") != -1) {
+                return false;
+            } else if (path.indexOf("landing.html") != -1) {
+                return false;
+            } else if (path.indexOf("med") != -1) {
+                return false;
+            }
+            return true;
+        }
+
+        $rootScope.ShowBottomNav = function() {
+            var path = $location.path();
+
+            if (path.indexOf("landing.html") != -1) {
+                return false;
+            } else if (path.indexOf("med") != -1) {
+                return false;
+            }
+            return true;
+        }
+
+    }
+]);
+
+
+function formatAccountLog($sce, log) {
+    if (isEmpty(log) || isEmpty(log.remark)) {
+        return log;
+    }
+
+    log.remark = $sce.trustAsHtml(log.remark);
+    return log;
+}
+
+function loadAccountLog($rootScope, $scope, $http, url, $sce) {
+
+    $rootScope.loading = true;
+    $http.get(url).success(function(response) {
+        if (checkResponse($rootScope, $scope, response)) {
+
+            var list = response.list;
+            if (!isEmpty($scope.logs) && Array.isArray($scope.logs)) //列表中已有元素
+            {
+                list.forEach(function(item, index, array) {
+                    $scope.logs.push(formatAccountLog($sce, item));
+                });
+            } else {
+                $scope.logs = [];
+                list.forEach(function(item, index, array) {
+                    $scope.logs.push(formatAccountLog($sce, item));
+                });
+                $scope.logs = response.list;
+            }
+        }
+    }).error(function(response, status, headers, config) {
+        checkResponse($rootScope, $scope, response);
+    });
+}
+
+
+//资金记录
+app.controller('AccountLogController', ['$rootScope', '$scope', '$http', '$routeParams', '$location', '$sce',
+    function($rootScope, $scope, $http, $routeParamsp, $location, $sce) {
+
+        setDefaultValue($scope, $rootScope);
+
+        if (isEmpty($scope.preExecTime)) {
+            $scope.preExecTime = new Date();
+        } else {
+            if ((new Date) - $scope.preExecTime < 5000) //5秒以内
+            {
+                return;
+            }
+        }
+
+        var ps = $rootScope.pageSize;
+        $scope.loadMore = function() {
+            if ($scope.currentPage < $scope.totalPageCount) {
+                $scope.currentPage = $scope.currentPage + 1;
+                var url = $rootScope.URL_ROOT + "/accountlog?pi=" + $scope.currentPage + "&ps=" + ps;
+                //列表性能会不会有问题
+                loadAccountLog($rootScope, $scope, $http, url, $sce);
+            } else {
+                //TODO:提示没有更多的加载项
+            }
+        };
+
+        $scope.getType = function(type) {
+            switch (type) {
+                case 0:
+                    return "Fine";
+                case 1:
+                    return "Fee";
+                case 2:
+                    return "UnFreeze";
+                case 3:
+                    return "Freeze";
+                default:
+                    break;
+            }
+            return "Fine";
+        };
+
+        if (isEmpty($scope.logs)) {
+            var url = $rootScope.URL_ROOT + "/accountlog?pi=" + 1 + "&ps=" + ps;
+            loadAccountLog($rootScope, $scope, $http, url, $sce);
+        }
+    }
+]);
+
+
+
+
+drawVerifyImg = function() {
+    var img = document.getElementById("captcha-img");
+
+    if (img != null) {
+        document.getElementById("captcha-img").src = SERVER_ADDRESS + "/api/verify?" + (new Date).getTime();
+    }
+}
+
+
+//注册用户数
+app.controller('loginController', function($rootScope, $scope, $http, $routeParams, $location) {
+
+    $scope.captchaerror = false;
+    $scope.pwderror = false;
+    $scope.captchaerror = false;
+
+
+
+    $scope.validateStr = SERVER_ADDRESS + "/api/verify?" + (new Date).getTime();
+
+    var openid = "";
+
+
+
+    //在微信端已经验证通过,需要在后台认证
+    if (!isEmpty($routeParams.openid) && isEmpty($scope.openId)) {
+        var openid = $routeParams.openid;
+
+        $scope.openid = openid;
+        $rootScope.loading = true;
+        var url = $rootScope.URL_ROOT + "/loginfromwx?id=" + openid;
+        $http.get(url).success(function(data, status) {
+            if (checkResponse($rootScope, $scope, data)) {
+                if (data.msg == "该微信号不存在" || data.msg == "该微信号尚未绑定账号") {
+                    $scope.openId = $routeParams.openid;
+                } else {
+                    $location.url("/");
+                    //登录正常跳转自我的账户页面
+                    //                  $location.path("default");
+                    $rootScope.IS_LOGIN = true;
+                }
+            }
+        }).error(function(data, status) {
+            if (checkResponse($rootScope, $scope, data)) {}
+        });
+    }
+
+    $scope.drawImg = function() {
+        drawVerifyImg();
+    };
+
+    $http.get($rootScope.URL_ROOT + "/queryloginstatus").success(function(data, status) {
+        if (checkResponse($rootScope, $scope, data)) {
+            $scope.validate = data.entity;
+        }
+    }).error(function(data, status) {
+        if (checkResponse($rootScope, $scope, data)) {}
+    });
+
+    $scope.user = {};
+    //服务器返回的消息
+    $scope.msg = "";
+    $scope.login = function() {
+
+        if (isEmpty($scope.user.userName)) {
+            $scope.usernameerror = true;
+            return false;
+        }
+
+        if (isEmpty($scope.user.pwd)) {
+            $scope.pwderror = true;
+            return false;
+        }
+
+        if (!isEmpty($scope.validate) && $scope.validate && isEmpty($scope.user.validateCode)) {
+            $scope.captchaerror = true;
+            return false;
+        }
+
+        $scope.user.openId = $scope.openId;
+        $rootScope.loading = true;
+        $http.post($rootScope.URL_ROOT + "/login", $scope.user).success(function(data, status) {
+
+
+            if (checkResponse($rootScope, $scope, data)) {
+
+                $rootScope.IS_LOGIN = true;
+                if (!isEmpty($rootScope.RETURN) && $rootScope.RETURN != "") {
+                    var retPath = $rootScope.RETURN;
+                    retPath = retPath.replace("#/", "");
+                    $location.url(retPath);
+                } else {
+                    $location.url("/");
+                    //$location.url("default");
+                    //$location.url("adinfo");
+                }
+                //登录正常跳转自用户中心页面
+            } else {
+                drawVerifyImg();
+
+                $http.get($rootScope.URL_ROOT + "/queryloginstatus").success(function(data, status) {
+                    if (checkResponse($rootScope, $scope, data)) {
+                        $scope.validate = data.entity;
+                    }
+                }).error(function(data, status) {
+                    if (checkResponse($rootScope, $scope, data)) {}
+                });
+            }
+        }).error(function(data, status) {
+            if (checkResponse($rootScope, $scope, data)) {}
+        });
+
+    };
+
+});
+
+function SendSms($rootScope, $http, $scope, tel, type, img) {
+
+    var url = "";
+    if (isEmpty(tel)) {
+        url = $rootScope.URL_ROOT + "/sms2";
+    } else {
+        if (isEmpty(type)) {
+
+            if (!isEmpty(img)) {
+                url = $rootScope.URL_ROOT + "/smsverifyimg3?tel=" + tel + "&img=" + img;
+            } else {
+                url = $rootScope.URL_ROOT + "/smsverify3?tel=" + tel;
+            }
+        } else {
+            if (!isEmpty(img)) {
+                url = $rootScope.URL_ROOT + "/smsverifyimg3?tel=" + tel + "&img=" + img;
+            } else {
+                url = $rootScope.URL_ROOT + "/smsverify3?tel=" + tel;
+            }
+        }
+    }
+    var btn = document.getElementById("jm-contract-btn");
+    var btnElement = angular.element(btn);
+
+    curCount = count;
+    //设置button效果，开始计时
+    btnElement.attr("disabled", "true");
+    btnElement.css("background-color", "gray");
+    btnElement.val(curCount + "秒后重试");
+    InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+
+    $http.get(url).success(function(data, status) {
+
+        if (data.msg == "请输入验证码" || data.msg == "验证码不正确" || data.msg == "验证码不正确") {
+            window.clearInterval(InterValObj); //停止计时器  
+            btnElement.removeAttr("disabled"); //启用按钮  
+            btnElement.css("background-color", "#0caffe");
+            btnElement.val("重新发送");
+            code = ""; //
+
+
+             $http.get($rootScope.URL_ROOT + "/querysmsstatus").success(function (data, status) {
+                if (checkResponse($rootScope, $scope, data)) {
+                    $scope.validate = data.entity;
+                }
+            }).error(function (data, status) {
+                if (checkResponse($rootScope, $scope, data)) {
+                }
+            });
+        }
+
+        if (checkResponse($rootScope, $scope, data)) {
+
+        }
+    }).error(function(data, status) {
+        if (checkResponse($rootScope, $scope, data)) {
+
+        }
+    });
+}
+
+
+function SetRemainTime(btnId) {
+
+    var tmpBtnId = "jm-contract-btn";
+    if (!isEmpty(btnId)) {
+        tmpBtnId = btnId;
+    }
+    var btn = document.getElementById(tmpBtnId);
+    var btnElement = angular.element(btn);
+    if (curCount == 0) {
+        window.clearInterval(InterValObj); //停止计时器  
+        btnElement.removeAttr("disabled"); //启用按钮  
+        btnElement.css("background-color", "#0caffe");
+        btnElement.val("重新发送");
+        code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效      
+    } else {
+        curCount--;
+        if (btnElement.css("background-color") != "gray") {
+            btnElement.css("background-color", "gray");
+        }
+        btnElement.val(curCount + "秒后重试");
+    }
+}
+
+function SetEmailTime() {
+    return SetRemainTime("btnEmailVerify");
+}
+
+/*-------------------------------------------*/
+var InterValObj; //timer变量，控制时间
+var count = 30; //间隔函数，1秒执行
+var curCount; //当前剩余秒数
+var code = ""; //验证码
+/*-------------------------------------------*/
+
+
+
+//注册用户数
+app.controller('registerController', function($rootScope, $scope, $http, $routeParams, $location) {
+
+    var invite = "";
+
+    if (isEmpty($scope.reg)) {
+        $scope.reg = {};
+    }
+
+    $scope.validateStr = SERVER_ADDRESS + "/api/verify?" + (new Date).getTime();
+
+    $http.get($rootScope.URL_ROOT + "/querysmsstatus").success(function(data, status) {
+        if (checkResponse($rootScope, $scope, data)) {
+            $scope.validate = data.entity;
+        }
+    }).error(function(data, status) {
+        if (checkResponse($rootScope, $scope, data)) {}
+    });
+
+
+
+    $scope.showRecomm = true;
+    //在微信端已经验证通过,需要在后台认证
+    if (!isEmpty($routeParams.invite)) {
+        var invite = $routeParams.invite;
+        $scope.reg.invite = $routeParams.invite;
+        $rootScope.invite = $scope.reg.invite;
+        $scope.showRecomm = false;
+    } else if (!isEmpty($rootScope.invite)) {
+        $scope.reg.invite = $rootScope.invite;
+        $scope.showRecomm = false;
+    }
+
+    if (!isEmpty($routeParams.openid)) {
+        var openid = $routeParams.openid;
+        $scope.reg.openId = openid;
+        $rootScope.openId = openid;
+    } else if (!isEmpty($rootScope.openId)) {
+        $scope.reg.openId = $rootScope.openId;
+    }
+
+    $scope.drawImg = function() {
+        drawVerifyImg();
+    };
+
+
+
+    //服务器返回的消息
+    $scope.msg = "";
+
+    $scope.usernameerror = false;
+    $scope.pwderror = false;
+    $scope.validateCodeError = false;
+    $scope.pwdNotMatchError = false;
+    $scope.pwdLengthError = false;
+
+    //获取手机验证码
+    $scope.getSmsCode = function() {
+        $scope.usernameerror = false;
+
+        var tel = $scope.reg.userName;
+        if (!checkIsMobile(tel)) {
+            $scope.usernameerror = true;
+            return false;
+        }
+        if ($scope.validate == 1 && isEmpty($scope.reg.imgVerifyCode)) {
+            return;
+        }
+        SendSms($rootScope, $http, $scope, tel, "r", $scope.reg.imgVerifyCode);
+    }
+
+
+    if (!isEmpty($routeParams.phone)) {
+        var phone = $routeParams.phone;
+        $scope.reg.userName = phone;
+        $scope.getSmsCode();
+    }
+
+
+    $scope.clearStatus = function() {
+        $scope.usernameerror = false;
+        $scope.pwderror = false;
+        $scope.validateCodeError = false;
+        $scope.pwdNotMatchError = false;
+        $scope.pwdLengthError = false;
+    };
+
+    //注册新用户
+    $scope.register = function() {
+        if (isEmpty($scope.reg) || (!$scope.reg)) {
+            return false;
+        }
+        var tel = $scope.reg.userName;
+        if (!checkIsMobile(tel)) {
+            $scope.usernameerror = true;
+            return false;
+        }
+        if (isEmpty($scope.reg.pwd)) {
+            $scope.pwderror = true;
+            return false;
+        }
+        if ($scope.reg.pwd.length < 6 || $scope.reg.pwd.length > 16) {
+            $scope.pwdLengthError = true;
+            return false;
+        }
+        if (!$scope.reg.agree) {
+            return false;
+        }
+        if (isEmpty($scope.reg.validateCode)) {
+            $scope.validateCodeError = true;
+            return false;
+        }
+        if ($("#repassword").length > 0 && $("#repassword").val() != $scope.reg.pwd) {
+            $scope.pwdNotMatchError = true;
+            return false;
+        }
+
+        $rootScope.loading = true;
+        $http.post($rootScope.URL_ROOT + "/register", $scope.reg).success(function(data, status) {
+            if (checkResponse($rootScope, $scope, data)) {
+
+                //注册正常跳转至投标页面
+                $location.url("/attest");
+                $rootScope.IS_LOGIN = true;
+            } else {
+                $scope.validate = 1;
+                $scope.msg = data.msg;
+            }
+        }).error(function(data, status) {
+            if (checkResponse($rootScope, $scope, data)) {}
+        });
+    };
+});
+
+
+function getAttestStatus($rootScope, $http, $scope) {
+    var getUrl = $rootScope.URL_ROOT + "/atteststatus";
+    $http.get(getUrl).success(function(data, status) {
+        if (checkResponse($rootScope, $scope, data)) {
+
+            $scope.reg.mobile = data.entity.mobile;
+            if (data.entity.emailFlg != 2) {
+                $scope.reg.email = data.entity.email;
+            }
+            $scope.reg.realName = data.entity.realName;
+            $scope.reg.idCard = data.entity.idCard;
+            $scope.entity = data.entity;
+        } else {
+            $scope.msg = data.msg;
+        }
+    }).error(function(data, status) {
+        if (checkResponse($rootScope, $scope, data)) {}
+    });
+}
+
+///身份认证验证
+app.controller('AttestController', ['$rootScope', '$scope', '$http', '$routeParams', '$location', '$sce',
+    function($rootScope, $scope, $http, $routeParamsp, $location, $sce) {
+
+
+        $scope.reg = {};
+        $scope.entity = {};
+        $scope.iderror = false;
+
+        $scope.getSmsVerifyCode = function(type) {
+            $scope.smsErrorStatus = false;
+            var mobile = $scope.reg.mobile;
+
+            if (!isEmpty(type) && type == 0) {
+                SendSms($rootScope, $http, $scope, null);
+            } else {
+                if (isEmpty($scope.reg.mobile) || !(/^1[3|4|5|8|7][0-9]\d{4,8}$/.test(mobile))) {
+                    $scope.smsErrorStatus = true;
+                    return false;
+                }
+                SendSms($rootScope, $http, $scope, mobile);
+            }
+        };
+        $scope.verifySms = function() {
+            var mobile = $scope.reg.mobile;
+            var code = $scope.reg.smsVerify;
+
+            $scope.verifySmsError = false;
+            if (isEmpty(mobile) || isEmpty(code)) {
+                $scope.verifySmsError = true;
+                return;
+            }
+            var checkUrl = $rootScope.URL_ROOT + "/verifySmsCode?mobile=" + mobile + "&code=" + code;
+            $http.get(checkUrl).success(function(data, status) {
+                if (checkResponse($rootScope, $scope, data)) {
+                    getAttestStatus($rootScope, $http, $scope);
+                }
+            }).error(function(data, status) {
+                if (checkResponse($rootScope, $scope, data)) {}
+            });
+        };
+
+
+        $scope.changeEmail = function() {
+
+            $scope.reg.email = "";
+            $scope.entity.emailFlg = 0;
+        }
+
+        $scope.getEmailVerifyCode = function() {
+            $scope.emailVerifyError = false;
+            var email = $scope.reg.email;
+            if (!checkIsEmail(email)) {
+                $scope.emailVerifyError = true;
+
+                $rootScope.Ui.turnOn('showinfo');
+                $scope.msg = "请检查邮箱输入是否有误";
+                $scope.title = "请检查";
+                return;
+            }
+            var code = $scope.reg.smsEmailVerify;
+            var url = $rootScope.URL_ROOT + "/attestemail?email=" + encodeURIComponent(email);
+            if (!isEmpty(code)) {
+                url += "&code=" + code;
+            }
+            var btn = document.getElementById("btnEmailVerify");
+            var btnElement = angular.element(btn);
+
+            curCount = count;
+            //设置button效果，开始计时
+            btnElement.attr("disabled", "true");
+            btnElement.css("background-color", "gray");
+            btnElement.val(curCount + "秒后重试");
+            InterValObj = window.setInterval(SetEmailTime, 1000); //启动计时器，1秒执行一次
+
+            $http.get(url).success(function(data, status) {
+                if (checkResponse($rootScope, $scope, data)) {
+                    getAttestStatus($rootScope, $http, $scope);
+                }
+            }).error(function(data, status) {
+                if (checkResponse($rootScope, $scope, data)) {}
+            });
+        };
+
+        $scope.verifyIdCard = function() {
+
+            var name = $scope.reg.realName;
+            var card = $scope.reg.idCard;
+
+            $scope.realNameError = false;
+            $scope.idCardError = false;
+
+            var nameCheck = isValiName(name);
+
+            if ("" != nameCheck) {
+                $scope.realNameError = true;
+
+                $rootScope.Ui.turnOn('showinfo');
+                $scope.msg = nameCheck;
+                $scope.title = "请检查";
+                return;
+            }
+
+            var cardCheck = isCardID(card);
+
+            if ("" != cardCheck) {
+                $rootScope.Ui.turnOn('showinfo');
+                $scope.msg = cardCheck;
+                $scope.title = "请检查";
+                return;
+            }
+
+
+            var cardUrl = $rootScope.URL_ROOT + "/attestrealname?name=" + name + "&card=" + card;
+            $http.get(cardUrl).success(function(data, status) {
+                if (checkResponse($rootScope, $scope, data)) {
+                    getAttestStatus($rootScope, $http, $scope);
+                }
+            }).error(function(data, status) {
+                if (checkResponse($rootScope, $scope, data)) {}
+            });
+        };
+        getAttestStatus($rootScope, $http, $scope);
+    }
+]);
+
+app.controller('adinfoController', ['$rootScope', '$scope', '$http', '$routeParams', '$location', '$sce',
+    function($rootScope, $scope, $http, $routeParamsp, $location, $sce) {
+        $scope.draw = function() {
+            window.location = "/m/luck_draw/index.html";
+        };
+    }
+]);
+
+app.directive('fading', ['$timeout', '$location',
+    function($timeout, $location) {
+        return {
+            restrict: "A",
+            link: function() {
+                $timeout(function() {
+                    $location.url("default");
+                }, 5000);
+            }
+        };
+    }
+]);
+
+
+
+
+function loadAwardInfo($rootScope, $scope, $http, url) {
+
+    $rootScope.loading = true;
+    $http.get(url).success(function(response) {
+        if (checkResponse($rootScope, $scope, response)) {
+            if (!isEmpty($scope.records) && Array.isArray($scope.records)) //列表中已有元素
+            {
+                var list = response.list;
+                list.forEach(function(item, index, array) {
+                    $scope.records.push(item);
+                });
+            } else {
+                $scope.records = response.list;
+            }
+        }
+    }).error(function(response, status, headers, config) {
+        checkResponse($rootScope, $scope, response);
+    });
+}
+//中奖信息查询
+app.controller('AwardInfoController', ['$rootScope', '$scope', '$http', '$routeParams',
+    function($rootScope, $scope, $http, $routeParamsp) {
+
+        if (isEmpty($scope.preExecTime)) {
+            $scope.preExecTime = new Date();
+        } else {
+            if ((new Date) - $scope.preExecTime < 5000) //5秒以内
+            {
+                return;
+            }
+        }
+
+
+        setDefaultValue($scope, $rootScope);
+        var ps = $rootScope.pageSize;
+        var url = $rootScope.URL_ROOT + "/awardinfo?pi=" + $scope.currentPage + "&ps=" + ps;
+
+        $scope.loadMore = function(t) {
+            if ($scope.currentPage < $scope.totalPageCount) {
+                $scope.currentPage = $scope.currentPage + 1;
+                var url = $rootScope.URL_ROOT + "/awardinfo?pi=" + $scope.currentPage + "&ps=" + ps;
+                //列表性能会不会有问题
+                loadAwardInfo($rootScope, $scope, $http, url);
+            } else {
+                //TODO:提示没有更多的加载项
+            }
+        };
+
+        if (isEmpty($scope.records)) {
+            loadAwardInfo($rootScope, $scope, $http, url);
+        }
+
+
+    }
+]);
+
+
+app.controller('moreController', ['$rootScope', '$scope', '$http', '$routeParams', '$location', '$sce',
+    function($rootScope, $scope, $http, $routeParamsp, $location, $sce) {
+
+    }
+]);
+app.controller('adinfoController', ['$scope', function($scope) {
+    $scope.draw = function() {
+        window.location = "/m/luck_draw/index.html";
+    };
+}]);
+
+app.directive('fading', ['$timeout', '$location',
+    function($timeout, $location) {
+        return {
+            restrict: "A",
+            link: function() {
+                $timeout(function() {
+                    $location.url("default");
+                }, 5000);
+            }
+        };
+    }
+]);
+
+app.controller('changepswController', ['$scope', '$http', '$location', '$rootScope',
+    function($scope, $http, $location, $rootScope) {
+
+        $scope.validateStr = SERVER_ADDRESS + "/api/verify?" + (new Date).getTime();
+
+
+        $scope.form1 = {
+            "oldPwd": "",
+            "pwd": "",
+            "againPwd": "",
+            "type": 0
+        };
+        $scope.form2 = {
+            "pwd": "",
+            "oldPwd": "",
+            "againPwd": "",
+            "validateCode": "",
+            "type": 1
+        };
+        $scope.form3 = {
+            "oldPwd": "",
+            "pwd": "",
+            "againPwd": "",
+            "validateCode": "",
+            "type": 2
+        };
+        var changepsw = function(data, tab) {
+            $http.post($rootScope.URL_ROOT + '/changePwd', JSON.stringify(data))
+                .success(function(responseData) {
+                    if (responseData.msg == '请登录') {
+
+                        $location.url("login");
+                    } else if (responseData.status) {
+                        if (tab === 1) {
+                            $scope.show1 = true;
+                            $scope.msg1 = responseData.entity;
+                        } else if (tab === 2) {
+                            $scope.show2 = true;
+                            $scope.msg2 = responseData.entity;
+                        } else {
+                            $scope.show3 = true;
+                            $scope.msg3 = responseData.entity;
+                        }
+                    } else {
+                        if (tab === 1) {
+                            $scope.show1 = true;
+                            $scope.msg1 = responseData.msg;
+                        } else if (tab === 2) {
+                            $scope.show2 = true;
+                            $scope.msg2 = responseData.msg;
+                        } else {
+                            $scope.show3 = true;
+                            $scope.msg3 = responseData.msg;
+                        }
+                    }
+                })
+                .error(function(data) {});
+        }
+        $scope.confirm = function(tab) { //修改密码
+            if (1 === tab) {
+                changepsw($scope.form1, 1);
+            } else if (2 === tab) {
+                changepsw($scope.form2, 2);
+            } else if (3 === tab) {
+                changepsw($scope.form3, 3);
+            }
+        };
+        $scope.drawImage = function() {
+            $scope.msg1 = false;
+            $scope.msg2 = false;
+            $scope.msg3 = false;
+            $scope.show1 = false;
+            $scope.show2 = false;
+            $scope.show3 = false;
+            $("#btnSubmit1").removeAttr("disabled");
+            $("#btnSubmit2").removeAttr("disabled");
+            drawVerifyImg();
+
+        };
+    }
+]);
+app.controller('payrecordController', ['$scope',
+    function($scope) {
+
+        //交易
+        $scope.pays = [{
+            "date": "2015年4月",
+            "dataArray": [{
+                "logo": "img/baofu-logo.jpg",
+                "paytype": "宝付",
+                "paydate": "2015-01-26",
+                "amount": 1032,
+                "success": "支付完成"
+            }, {
+                "logo": "img/guofubao-logo.jpg",
+                "paytype": "国付宝",
+                "paydate": "2015-01-26",
+                "amount": 1032,
+                "success": "支付中止"
+            }, {
+                "logo": "img/huichao-logo.jpg",
+                "paytype": "汇潮",
+                "paydate": "2015-01-26",
+                "amount": 1032,
+                "success": "支付失败"
+            }, {
+                "logo": "img/baofu-logo.jpg",
+                "paytype": "宝付",
+                "paydate": "2015-01-26",
+                "amount": 1032,
+                "success": "支付完成"
+            }, {
+                "logo": "img/huichao-logo.jpg",
+                "paytype": "汇潮",
+                "paydate": "2015-01-26",
+                "amount": 1032,
+                "success": "支付完成"
+            }]
+        }, {
+            "date": "2015年3月",
+            "dataArray": [{
+                "logo": "img/baofu-logo.jpg",
+                "paytype": "宝付",
+                "paydate": "2015-01-26",
+                "amount": 1032,
+                "success": "支付完成"
+            }, {
+                "logo": "img/guofubao-logo.jpg",
+                "paytype": "国付宝",
+                "paydate": "2015-01-26",
+                "amount": 1032,
+                "success": "支付中止"
+            }, {
+                "logo": "img/huichao-logo.jpg",
+                "paytype": "汇潮",
+                "paydate": "2015-01-26",
+                "amount": 1032,
+                "success": "支付失败"
+            }, {
+                "logo": "img/baofu-logo.jpg",
+                "paytype": "宝付",
+                "paydate": "2015-01-26",
+                "amount": 1032,
+                "success": "支付完成"
+            }, {
+                "logo": "img/huichao-logo.jpg",
+                "paytype": "汇潮",
+                "paydate": "2015-01-26",
+                "amount": 1032,
+                "success": "支付完成"
+            }]
+        }]
+    }
+]);
+
+app.controller('bindbcCtrl', ['$scope', '$rootScope', '$http', '$location',
+    //获取银行卡信息，若已经绑定银行卡了，直接跳转银行卡列表
+    function($scope, $rootScope, $http, $location) {
+        $http.get($rootScope.URL_ROOT + "/channel").success(function(response) {
+            if (checkResponse($rootScope, $scope, response)) {
+
+                if (response.entity.cards.length) {
+                    $location.url("banklist");
+                }
+            }
+        }).error(function(response, status, headers, config) {
+            //console.log(response);
+        });
+
+
+        $http.get($rootScope.URL_ROOT + '/atteststatus')
+            .success(function(responseData) {
+                if (!responseData || !responseData.status || !responseData.entity) {
+                    $location.url("login");
+                } else {
+                    with(responseData.entity) {
+                        if (idFlg == 0 || mobileFlg == 0) {
+                            $location.url("attest");
+                        } else {
+                            $scope.form1.username = realName;
+                        }
+                    }
+
+                }
+
+            });
+        $scope.form1 = {
+            "username": "",
+            "cardnum": ""
+        };
+
+        $scope.form2 = {
+            "cardtype": "2",
+            "province": "1",
+            "city": "1",
+            "depositbank": ""
+        };
+        $scope.form3 = {
+            "validcode": ""
+        };
+
+        $scope.banks = [{
+            "no": 62,
+            "name": "中国建设银行"
+        }, {
+            "no": 59,
+            "name": "中国交通银行"
+        }, {
+            "no": 71,
+            "name": "招商银行"
+        }, {
+            "no": 78,
+            "name": "中国工商银行"
+        }, {
+            "no": 79,
+            "name": "广发银行"
+        }, {
+            "no": 80,
+            "name": "华夏银行"
+        }, {
+            "no": 81,
+            "name": "平安银行"
+        }, {
+            "no": 82,
+            "name": "浦发银行"
+        }, {
+            "no": 83,
+            "name": "兴业银行 "
+        }, {
+            "no": 84,
+            "name": "光大银行"
+        }, {
+            "no": 85,
+            "name": "民生银行"
+        }, {
+            "no": 86,
+            "name": "农业银行"
+        }, {
+            "no": 87,
+            "name": "中国银行"
+        }, {
+            "no": 88,
+            "name": "邮政"
+        }, {
+            "no": 89,
+            "name": "中信银行"
+        }, {
+            "no": 90,
+            "name": "中国银行"
+        }];
+
+        $scope.step1 = true;
+        $scope.step2 = false;
+        $scope.step3 = false;
+
+        $scope.confirm = function(step) {
+            if (1 == step) {
+                $scope.step1 = false;
+                $scope.step2 = true;
+            } else if (2 == step) {
+                $scope.step2 = false;
+                $scope.step3 = true;
+            } else if (3 == step) {
+                with($scope) {
+                    var data = {
+                        "bankCode": form2.cardtype,
+                        "branck": form2.depositbank,
+                        "cardId": form1.cardnum,
+                        "city": form2.city,
+                        "province": form2.province,
+                        "validateCode": form3.validcode
+                    };
+                };
+                $http.post($rootScope.URL_ROOT + '/bindcard', data)
+                    .success(function(responseData) {
+                        //TODO 绑定银行卡列表
+                        if (responseData.status)
+                            $location.url("banklist");
+                        else
+                            $scope.msg = responseData.msg;
+                    });
+            } else if (4 == step) {
+                $scope.step1 = true;
+                $scope.step2 = false;
+            } else if (5 == step) {
+                $scope.step2 = true;
+                $scope.step3 = false;
+            }
+        };
+        //短信验证码---------------------------------------------(修改成指令)-------------------
+        $scope.btnmsg = "获取手机验证码";
+        $scope.disable = true;
+        $scope.sendmsg = function() {
+
+                var flag = true;
+                var time = 30;
+                if ($scope.disable) {
+                    $scope.disable = false;
+                    //发送短信
+                    SendSms($rootScope, $http, $scope, $scope.form1.phone);
+                    var timer = setInterval(function() {
+                        if (time > 0) {
+                            time--;
+                            $scope.$apply(function() {
+                                $scope.btnmsg = time + '秒 后重新发送';
+                                $scope.disable = false;
+                            });
+                        } else {
+                            $scope.$apply(function() {
+                                $scope.btnmsg = "获取手机验证码";
+                                $scope.disable = true;
+                            });
+
+                            clearInterval(timer);
+                        }
+                    }, 1000);
+
+                } else {
+                    //TODO 点击过了
+                }
+            }
+            //短信验证码---------------------------------------------(修改成指令)-------------------
+    }
+]);
+//----------------------------------二级联动下拉选项twolinkage指令---start----------------------------
+app.directive('twolinkage', ['$http', function($http) {
+
+        return {
+            restrict: 'A',
+            templateUrl: "twolinkage.tpl",
+            replace: true,
+            link: function(scope, element, attrs) {
+                var init = function(responseData) {
+                    for (var i = 0; i < responseData.length; i++) {
+                        with(element.children()[0]) { //便利省
+                            length = responseData.length;
+                            options[i].text = responseData[i].name;
+                            options[i].value = responseData[i].no;
+                        }
+                    }
+                    with(element.children()[1]) { //遍历市
+                        length = responseData[0].Array.length;
+                        options[0].text = responseData[0].Array[0].name;
+                        options[0].value = responseData[0].Array[0].no;
+                    }
+                };
+                $http({
+                    method: 'GET',
+                    url: 'twolinkage.json'
+                }).
+                success(function(responseData) {
+                    init(responseData);
+                    element.children()[0].onchange = function() {
+                        with(element.children()[0]) {
+                            var provinceid = options[selectedIndex].value;
+                        }
+                        for (var i = 0; i < responseData.length; i++) {
+                            if (responseData[i].no == provinceid) {
+                                with(element.children()[1]) {
+                                    length = responseData[i].Array.length;
+                                    for (var j = 0; j < responseData[i].Array.length; j++) {
+                                        options[j].text = responseData[i].Array[j].name;
+                                        options[j].value = responseData[i].Array[j].no;
+                                    }
+                                }
+                            }
+                        }
+                    };
+                });
+            }
+        }
+    }])
+    //----------------------------------二级联动下拉选项twolinkage指令---end----------------------------
+    //主页点击bar
+app.controller('homeCtrl', ['$scope', '$rootScope', '$location', '$timeout', "$http",
+    function($scope, $rootScope, $location, $timeout, $http) {
+
+        var active = "#FF6666";
+        var hover = "#B1B3B5";
+
+        var activetype = {
+            "icon": "active",
+            "color": active
+        }
+        var hovertype = {
+            "icon": "hover",
+            "color": hover
+        }
+        $rootScope.dl1 = activetype;
+        $rootScope.dl2 = hovertype;
+        $rootScope.dl3 = hovertype;
+        $rootScope.dl4 = hovertype;
+
+        /*$scope.items = [
+        {
+            "index": 1,
+            "img": "img/Uxuan.png",
+            "name": "聚金优选",
+            "content": "1000元起投  智能风险分散  18%预期年化收益",
+            "type": ""
+        },
+        {
+            "index": 0,
+            "img": "img/san.png",
+            "name": "散标投资",
+            "content": "50元起投  期限灵活  12%预期年化收益",
+            "type": ""
+        },
+        {
+            "index": 2,
+            "img": "img/xin.png",
+            "name": "新专享",
+            "content": "稳健收益  100%适用本息保障",
+            "type": ""
+        },
+    ];
+    $http.get($rootScope.URL_ROOT + "/borrowstatus").success(function (responseData) {
+        if (responseData.entity) {
+            responseData.entity.a == 1 ? $scope.items[0].type = '可投资' : $scope.items[0].type = '已售完';
+            responseData.entity.b == 1 ? $scope.items[1].type = '可投资' : $scope.items[1].type = '已售完';
+            responseData.entity.c == 1 ? $scope.items[2].type = '可投资' : $scope.items[2].type = '已售完';
+        }
+    });*/
+
+        $scope.item = {};
+        $http.get($rootScope.URL_ROOT + "/borrowstatus").success(function(responseData) {
+            $scope.item = responseData.entity;
+        });
+
+
+        $scope.divclick = function(num) {
+            switch (num) {
+                case 0: //散标投资
+                    $rootScope.bar = 0;
+                    $location.url("borrows?id=0");
+                    break;
+                case 1: //聚金U选
+                    $rootScope.bar = 1;
+                    $location.url("borrows?id=1");
+                    break;
+                case 3: //聚金宝
+                    $rootScope.bar = 2;
+                    $location.url("borrows?id=2");
+                    break;
+                case 4: //债权转让
+                    $rootScope.bar = 2;
+                    $location.url("borrows?id=2");
+                    break;
+            }
+        };
+        $scope.left = 0;
+        $scope.flag = true;
+    }
+]);
+app.directive('carousel', ['$drag',
+    function($drag) {
+        return {
+            restrict: 'A',
+            transclude: false,
+            link: function(scope, element, attrs) {
+
+                scope.carousel = function() {
+                    if (scope.left == 0) {
+                        scope.carousel_left();
+                        scope.left++;
+                    } else if (scope.left == 1 && scope.flag) {
+                        scope.carousel_left();
+                        scope.left++;
+                        scope.flag = false;
+                    } else if (scope.left == 1 && !scope.flag) {
+                        scope.carousel_right();
+                        scope.left--;
+                        scope.flag = true;
+                    } else if (scope.left == 2) {
+                        scope.carousel_right();
+                        scope.left--;
+                    }
+                };
+                scope.carousel_left = function() {
+                    $('div[carousel]>div').animate({
+                        right: "+=100%"
+                    }, 2000, function() {
+                        $('li.current-li').removeClass('current-li').next('li').addClass('current-li');
+                    });
+                }
+                scope.carousel_right = function() {
+                    $('div[carousel]>div').animate({
+                        right: "-=100%"
+                    }, 2000, function() {
+                        $('li.current-li').removeClass('current-li').prev('li').addClass('current-li');
+                    });
+                }
+                scope.timer = setInterval(scope.carousel, 15000);
+                //当dom元素被移除时，移除计时器
+                scope.$on(
+                    "$destroy",
+                    function(event) {
+                        clearInterval(scope.timer);
+                    }
+                );
+            }
+        };
+    }
+]);
+// 找回密码--------------------------
+
+app.controller('findpswCtrl', ['$scope', '$rootScope', '$http', '$location',
+    function($scope, $rootScope, $http, $location) {
+        $scope.form1 = {
+            phone: "",
+            validcode: ""
+        }
+        $scope.form2 = {
+            psw: "",
+            repsw: ""
+        }
+
+        $scope.validateStr = SERVER_ADDRESS + "/api/verify?" + (new Date).getTime();
+        
+        $http.get($rootScope.URL_ROOT + "/querysmsstatus").success(function(data, status) {
+            if (checkResponse($rootScope, $scope, data)) {
+                $scope.validate = data.entity;
+            }
+        }).error(function(data, status) {
+            if (checkResponse($rootScope, $scope, data)) {}
+        });
+
+
+        $scope.drawImg = function() {
+            drawVerifyImg();
+        };
+
+        $scope.btnmsg = "获取手机验证码";
+        $scope.disable = true;
+
+        //发送短信
+        $scope.sendmsg = function() {
+
+            var flag = true;
+            var time = 30;
+            if ($scope.disable) {
+                $scope.disable = false;
+
+                 if ($scope.validate == 1 && isEmpty($scope.form1.imgVerifyCode)) {
+                    return;
+                 }
+
+                //发送短信
+                SendSms($rootScope, $http, $scope, $scope.form1.phone,"r", $scope.form1.imgVerifyCode);
+                //发送号码到服务器
+                $http.get($rootScope.URL_ROOT + "/queryuserbymobile?tel=" + $scope.form1.phone)
+                    .success(function(responseData) {
+
+                        if (responseData.status && responseData.msg === '请输入用户名') {
+                            $scope.msg = '请输入用户名';
+                        } else if (!responseData.status) {
+                            $scope.msg = '绑定手机不正确';
+                        } else {
+                            $scope.userId = responseData.entity;
+                        }
+                    });
+
+                var timer = setInterval(function() {
+                    if (time > 0) {
+                        time--;
+                        $scope.$apply(function() {
+                            $scope.btnmsg = time + 's 后重新发送';
+                            $scope.disable = false;
+                        });
+                    } else {
+                        $scope.$apply(function() {
+                            $scope.btnmsg = "获取手机验证码";
+                            $scope.disable = true;
+                        });
+                        clearInterval(timer);
+                    }
+                }, 1000);
+
+            } else {
+                //TODO 点击过了
+
+            }
+        };
+        $scope.step2 = false;
+        //修改密码
+        $scope.confirm = function(num) {
+            var requestData = {
+                "pwd": $scope.form2.psw,
+                "againPwd": $scope.form2.repsw,
+                "type": 0,
+                "userId": $scope.userId,
+                "tel": $scope.form1.phone
+            };
+            if (num === 1) {
+                //TODO 验证短信验证码和手机数据到服务
+
+                $http.get($rootScope.URL_ROOT + "/verifySmsCode?mobile=" + $scope.form1.phone + "&code=" + $scope.form1.validcode)
+                    .success(function(responseData) {
+
+                        if (responseData.status) {
+                            //验证成功
+                            $scope.step2 = true;
+                        } else {
+                            $scope.msg = responseData.msg;
+                            $scope.step2 = false;
+                        }
+                    });
+
+                       $http.get($rootScope.URL_ROOT + "/querysmsstatus").success(function(data, status) {
+                            if (checkResponse($rootScope, $scope, data)) {
+                                $scope.validate = data.entity;
+                            }
+                        }).error(function(data, status) {
+                            if (checkResponse($rootScope, $scope, data)) {}
+                        });
+
+
+            } else { //TODO 修改密码
+
+                $http.post($rootScope.URL_ROOT + '/changePwdDirect', JSON.stringify(requestData))
+                    .success(function(resposeDate) {
+
+                        if (resposeDate.status) {
+                            $scope.msg = resposeDate.entity;
+                            $scope.url = "/login";
+                            $scope.Ui.turnOn('dialog');
+                        } else {
+                            $scope.msg = resposeDate.msg;
+                            $scope.Ui.turnOn('dialog');
+                        }
+                    });
+            }
+        };
+        $scope.close = function() {
+
+            if ($scope.url)
+                $location.url($scope.url);
+        };
+    }
+]);
+//绑定提现银行卡列表
+app.controller('banklistCtrl', function($rootScope, $scope, $http, $location) {
+
+    //  $rootScope.RETURN = "#/bankcard";
+    var url = $rootScope.URL_ROOT + "/channel";
+    $http.get(url).success(function(response) {
+        if (checkResponse($rootScope, $scope, response)) {
+            if (!response || !response.status || !response.entity.cards.length) {
+                $location.url("/bindbc");
+            } else {
+                $scope.bankCards = response.entity.cards;
+            }
+        }
+    }).error(function(response, status, headers, config) {
+        checkResponse($rootScope, $scope, response);
+    });
+    $scope.selectbank = function(bankcard) {
+        $rootScope.bankcard = bankcard;
+        $location.url("/confrec");
+    };
+    $scope.recharge = function() {
+        $location.url("/recharge");
+    };
+});
+
+//确认充值
+app.controller('confrecCtrl', function($rootScope, $scope, $http, $location) {
+    /*绑定多卡---------------start---------------------------------
+    if(!$rootScope.bankcard){
+        $location.url("/recharge");
+    }
+    $scope.bankCard = $rootScope.bankcard;
+    绑定多卡-----------------end----------------------------------*/
+    //绑定一卡---------------start--------------------------------
+    $scope.bankcard = {
+        "id": "",
+        "bankCode": "",
+        "bankName": "",
+        "bankType": "",
+        "branck": "",
+        "cardId": "",
+        "nickName": "",
+        "type": 0,
+        "userId": ""
+    };
+
+    var url = $rootScope.URL_ROOT + "/channel";
+    $http.get(url).success(function(response) {
+        if (checkResponse($rootScope, $scope, response)) {
+            if (!response || !response.status || !response.entity.cards.length) {
+                $location.url("/bindbc");
+            } else {
+                $scope.bankCard = response.entity.cards[0];
+            }
+        }
+    }).error(function(response, status, headers, config) {
+        checkResponse($rootScope, $scope, response);
+    });
+
+    //绑定一卡--------------end-----------------------------------
+    //充值金额
+    $scope.amout = $rootScope.amout;
+    var entity = {
+        "cardId": $scope.bankcard.id,
+        "bankId": '2',
+        "rechargeAmount": $rootScope.amout,
+        "rechargeOrderId": "",
+        "rechargeContinue": "0"
+    };
+    $http.post($rootScope.URL_ROOT + "/recharge", entity)
+        .success(function(data, status) {
+            $scope.value = data.entity;
+        }).error(function(data, status) {
+
+        });
+});
+
+//把null转为需要的值
+app.filter('isnull', [function() {
+    return function(input, output) {
+        if (input) {
+            return input;
+        } else {
+            return output;
+        }
+    }
+}]);
+
+//把指定值转为需要的值
+app.filter('replacewith', [function() {
+    return function(input, output1, output2) {
+        if (input === output1) {
+            return output2;
+        } else {
+            return input;
+        }
+    }
+}]);
+
+//聚金券列表
+app.controller('ticketCtrl', ['$scope', '$location', '$rootScope', '$http',
+    function($scope, $location, $rootScope, $http) {
+        $scope.type = 0;
+        var url = $rootScope.URL_ROOT + '/ticket?type=' + $scope.type + '&pi=1&ps=5';
+
+        $scope.reloadData = function(num) {
+            $scope.type = num;
+            url = $rootScope.URL_ROOT + '/ticket?type=' + num + '&pi=1&ps=5';
+        };
+
+        $scope.$watch('type', function() {
+            $http.get(url).success(function(responseData) {
+                if (responseData.list) {
+                    if (responseData.list.length == 0)
+                        $scope.list = null;
+                    else
+                        $scope.list = responseData.list;
+                }
+            });
+        });
+    }
+]);
+
+
+//红包组概况
+app.controller('myawardCtrl', ['$scope', '$location', '$rootScope', '$http', '$sce',
+    function($scope, $location, $rootScope, $http, $sce) {
+
+        var url = $scope.URL_ROOT + "/querycoupon";
+        $scope.coin = 0;
+        $scope.tickCount = 0;
+        $http.get(url).success(function(response) {
+            $scope.coin = convertToFloat(response.entity.coin).toFixed(2);
+            $scope.ticketCount = convertToFloat(response.entity.ticketCount).toFixed(0);
+        }).error(function(response, status, headers, config) {
+            checkResponse($rootScope, $scope, response);
+        });
+
+    }
+]);
+
+function formatRedMemo($sce, msg) {
+    if (isEmpty(msg) || isEmpty(msg.memo)) {
+        return msg;
+    }
+    msg.memo = $sce.trustAsHtml(msg.memo);
+    return msg;
+}
+//红包
+app.controller('myredsCtrl', ['$scope', '$location', '$rootScope', '$http', '$sce',
+    function($scope, $location, $rootScope, $http, $sce) {
+        setDefaultValue($scope, $rootScope);
+        var ps = $rootScope.pageSize;
+
+        $scope.url = '/getGraphCoinList';
+        $scope.hidemore = false;
+        $scope.reloadData = function(url) {
+            $scope.url = url;
+        };
+
+        $scope.$watch('url', function() {
+            setDefaultValue($scope, $rootScope);
+            $scope.list = [];
+            getData($scope.url, 1, ps);
+        });
+
+        var getData = function(url, pi, ps) {
+            $http.get($rootScope.URL_ROOT + url + "?pi=" + pi + "&ps=" + ps).success(function(responseData) {
+                if (checkResponse($rootScope, $scope, responseData)) {
+                    //$scope.list = responseData.list;
+                    var list = responseData.list;
+                    if (!isEmpty($scope.list) && Array.isArray($scope.list)) //列表中已有元素
+                    {
+                        list.forEach(function(item, index, array) {
+                            $scope.list.push(formatRedMemo($sce, item));
+                        });
+                    } else {
+                        $scope.list = [];
+                        list.forEach(function(item, index, array) {
+                            $scope.list.push(formatRedMemo($sce, item));
+                        });
+                    }
+                    if ($scope.totalPageCount == 0 || $scope.totalPageCount == $scope.currentPage) {
+                        $scope.hidemore = true;
+                    }
+                }
+            });
+        }
+
+        $scope.loadmore = function() {
+            if ($scope.currentPage < $scope.totalPageCount) {
+                $scope.currentPage = $scope.currentPage + 1;
+                getData($scope.url, $scope.currentPage, ps);
+            }
+        };
+        $scope.getdesc = function(insDate, amount, id, phoneNumber) {
+            $location.url("/reddesc?insDate=" + insDate + "&amount=" + amount + "&id=" + id + "&phonenum=" + phoneNumber);
+        };
+    }
+]);
+
+
+//红包详情
+app.controller('reddescCtrl', ['$scope', '$routeParams', '$rootScope', '$http',
+    function($scope, $routeParams, $rootScope, $http) {
+        $scope.insDate = $routeParams.insDate;
+        $scope.amount = $routeParams.amount;
+
+        var id = $routeParams.id; //红包id
+        var phonenum = $routeParams.phonenum; //手机号
+
+
+        $scope.div_show = false;
+
+        $scope.show = function() {
+            $scope.div_show = true;
+        }
+        $scope.hide = function() {
+            $scope.div_show = false;
+        }
+
+        //TODO 添加分享事件 
+        var shareUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx30235c7115ff82d5&redirect_uri=http://m.jujinziben.com/WeiXinServer/redball?id=' + id + '&phonenum=' + phonenum + '&response_type=code&scope=snsapi_userinfo&state=3&connect_redirect=1#wechat_redirect';
+
+        var url = $rootScope.SERVER + "/WeiXinServer/ShareServlet?url=" + location.href; //encodeURIComponent(userUrl);
+        var wechatshare = function(shareUrl) {
+
+            $http.get(url).success(function(data, status) {
+                wx.config({
+                    debug: false,
+                    appId: 'wx30235c7115ff82d5',
+                    timestamp: data.timestamp,
+                    nonceStr: data.noncestr,
+                    signature: data.signature,
+                    jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline']
+                });
+                wx.ready(function() {
+                    // 获取“分享给朋友”按钮点击状态及自定义分享内容接口
+                    wx.onMenuShareAppMessage({
+                        title: '6.26聚金周年庆，百万红包大放送', // 分享标题
+                        desc: '百万红包大放送，这次玩大了', // 分享描述
+                        link: shareUrl,
+                        imgUrl: 'http://m.jujinziben.com/wechat/images/title.png', // 分享图标
+                        type: 'link', // 分享类型,music、video或link，不填默认为link
+                        success: function(res) {}
+                    });
+                    // 获取“分享朋友圈”按钮点击状态及自定义分享内容接口
+                    wx.onMenuShareTimeline({
+                        title: '6.26聚金周年庆，百万红包大放送',
+                        desc: '百万红包大放送，这次玩大了',
+                        link: shareUrl,
+                        imgUrl: 'http://m.jujinziben.com/wechat/images/title.png',
+                        success: function(res) {}
+                    });
+                });
+            }).error(function(data) {
+                //if (checkResponse($rootScope, $scope, data)) {
+                //}
+            });
+
+        }
+        wechatshare(shareUrl);
+
+
+    }
+]);
+
+//根据聚金券切换壁纸
+app.filter('img', [function() {
+    return function(input) {
+        switch (input) {
+            case 0.5:
+                return 'orange';
+                break;
+            case 1:
+                return 'blue';
+                break;
+            case 2:
+                return 'green';
+                break;
+            default:
+                return 'orange';
+                break;
+        }
+    }
+}]);
+
+
+//根据聚金券和聚金币的
+app.filter('rewardtype', [function() {
+    return function(input) {
+        switch (input) {
+            case 0:
+                return 'gray';
+                break;
+            case 1:
+                return 'orange';
+                break;
+            default:
+                return 'orange';
+                break;
+        }
+    }
+}]);
+
+app.filter('rewardimg', [function() {
+    return function(input) {
+        switch (input) {
+            case 0:
+                return 'gray';
+                break;
+            case 1:
+                return 'orange';
+                break;
+            default:
+                return 'orange';
+                break;
+        }
+    }
+}]);
+
+app.controller('setaccCtrl', ['$scope', '$rootScope', '$http', '$location', function($scope, $rootScope, $http, $location) {
+    $scope.logout = function() {
+        var logoutUrl = $rootScope.URL_ROOT + "/logout";
+        $http.get(logoutUrl).success(function(response) {
+            if (checkResponse($rootScope, $scope, response)) {
+                $location.url("/");
+            }
+        }).error(function(response, status, headers, config) {
+            checkResponse($rootScope, $scope, response);
+            //Handler error
+        });
+    }
+}]);
+
+app.controller('contactusCtrl', ['$scope', function($scope) {
+
+}]);
+
+
+function loadChance($rootScope, $scope, $http, url) {
+    $rootScope.loading = true;
+    $http.get(url).success(function(response) {
+        if (checkResponse($rootScope, $scope, response)) {
+            var list = response.list;
+            if (!isEmpty($scope.chances) && Array.isArray($scope.chances)) //列表中已有元素
+            {
+                list.forEach(function(item, index, array) {
+                    $scope.chances.push(item);
+                });
+            } else {
+                $scope.chances = [];
+                list.forEach(function(item, index, array) {
+                    $scope.chances.push(item);
+                });
+            }
+            console.log($scope.chances);
+        }
+    }).error(function(response, status, headers, config) {
+        checkResponse($rootScope, $scope, response);
+    });
+}
+
+
+//红包分享
+app.controller('chanceController', ['$scope', '$rootScope', '$routeParams', '$http', '$location', function($scope, $rootScope, $routeParams, $http, $location) {
+
+    setDefaultValue($scope, $rootScope);
+    var ps = $rootScope.pageSize;
+    var url = $rootScope.URL_ROOT + "/queryCoinChance?phoneNumber=&pi=" + $scope.currentPage + "&ps=" + ps;
+
+    $scope.loadMore = function(t) {
+        if ($scope.currentPage < $scope.totalPageCount) {
+            $scope.currentPage = $scope.currentPage + 1;
+            url = $rootScope.URL_ROOT + "/queryCoinChance?phoneNumber=&pi=" + $scope.currentPage + "&ps=" + ps;
+            //列表性能会不会有问题
+            loadChance($rootScope, $scope, $http, url);
+        } else {
+            //TODO:提示没有更多的加载项
+        }
+    };
+
+    if (typeof($scope.chances) == "undefined" || $scope.chances == null) {
+        loadChance($rootScope, $scope, $http, url);
+    }
+}]);
+
+
+//红包分享
+app.controller('chancedescController', ['$scope', '$rootScope', '$routeParams', '$http', '$location', function($scope, $rootScope, $routeParams, $http, $location) {
+
+    var url = $rootScope.URL_ROOT + "/queryCoinChanceByRoot?id=" + $routeParams.id + "&phoneNumber=" + $routeParams.phonenum;
+
+    $http.get(url).success(function(response) {
+        if (checkResponse($rootScope, $scope, response)) {
+            $scope.entity = response.entity;
+        }
+    }).error(function(response, status, headers, config) {
+        checkResponse($rootScope, $scope, response);
+    });
+
+    $scope.div_show = false;
+
+    $scope.show = function() {
+        if ($("#masking").length > 0) {
+            $("#masking").css('display', 'block');
+        } else {
+            var masking = document.createElement("div");
+            masking.className = "masking-02";
+            masking.style.display = "block";
+            masking.id = "masking";
+
+            var f_img = document.createElement("div");
+            f_img.className = "f-img00";
+            masking.appendChild(f_img);
+
+            $(document.body).append(masking);
+
+            $(masking).click(function() {
+                $("#masking").css('display', 'none');
+            });
+        }
+    }
+    $scope.hide = function() {
+        $scope.div_show = false;
+    }
+
+    //TODO 添加分享事件    
+
+    var id = $routeParams.id; //红包id
+    var phonenum = $routeParams.phonenum; //手机号
+
+
+    var shareUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx30235c7115ff82d5&redirect_uri=http://m.jujinziben.com/WeiXinServer/redball?id=' + id + '%26phonenum=' + phonenum + '&response_type=code&scope=snsapi_userinfo&state=3&connect_redirect=1#wechat_redirect';
+
+    var url = $rootScope.SERVER + "/WeiXinServer/ShareServlet?url=" + location.href;
+    var SUCCESS_URL = 'http://m.jujinziben.com/api/shareChance?recordId=' + id + '&phoneNumber=' + phonenum;
+    var wechatshare = function(shareUrl) {
+        $http.get(url).success(function(data, status) {
+            wx.config({
+                debug: false,
+                appId: 'wx30235c7115ff82d5',
+                timestamp: data.timestamp,
+                nonceStr: data.noncestr,
+                signature: data.signature,
+                jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline']
+            });
+            wx.ready(function() {
+                // 获取“分享给朋友”按钮点击状态及自定义分享内容接口
+                wx.onMenuShareAppMessage({
+                    title: '聚金资本活动第三季', // 分享标题
+                    desc: '聚金资本活动第三季', // 分享描述
+                    link: shareUrl,
+                    imgUrl: 'http://m.jujinziben.com/wechat/images/title.png', // 分享图标
+                    type: 'link', // 分享类型,music、video或link，不填默认为link
+                    success: function(res) {
+                        console.log(res);
+                        //$http.get(SUCCESS_URL);
+                    }
+                });
+                // 获取“分享朋友圈”按钮点击状态及自定义分享内容接口
+                wx.onMenuShareTimeline({
+                    title: '聚金资本活动第三季',
+                    desc: '聚金资本活动第三季',
+                    link: shareUrl,
+                    imgUrl: 'http://m.jujinziben.com/wechat/images/title.png',
+                    success: function(res) {
+                        console.log(res);
+                        //$http.get(SUCCESS_URL);
+                    }
+                });
+            });
+        }).error(function(data) {});
+
+    }
+    wechatshare(shareUrl);
+}]);
+
+
+
+
+app.controller('PostListController',
+    function($scope) {
+        // 设置轮播图图片间隔
+        $scope.myInterval = 5000;
+        // 轮播图数据初始化
+        var slides = $scope.slides = [];
+        // 添加轮播图源
+        slides.push({
+            image: 'http://m.jujinziben.com/m/jujin/img/licaijie.png',
+            text: '亲爱的你，情人节快乐'
+        });
+        slides.push({
+            image: 'http://img0.bdstatic.com/img/image/938752027bda10a897c5958fc8acbf361440490592.jpg',
+            text: '亲爱的你，情人节快乐'
+        });
+        slides.push({
+            image: 'http://img0.bdstatic.com/img/image/6946388bef89760a5a2316f888602a721440491660.jpg',
+            text: '亲爱的你，情人节快乐'
+        });
+        slides.push({
+            image: 'http://img0.bdstatic.com/img/image/fba1dc1d2f01ca9795f882508e9a51431418017016.jpg',
+            text: '亲爱的你，情人节快乐'
+        });
+    });

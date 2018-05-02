@@ -1,0 +1,142 @@
+<div ui-content-for="back">
+    <a href="javascript:window.history.go(-1)"><img src="/m/images/back_24.png" /></a>
+</div>
+<div ui-content-for="title">
+    <span>资产管理</span>
+</div>
+<div class="scrollable" style="background-color:#fff">
+    <div class="scrollable-content">
+        <section>
+            <aside>
+                <a href="#/interestdetail">
+                    <div class="yue_z_e">
+                        <div class="yue_div_ze">
+                            <div class="yue_div_iv">
+                                <p>总金额(元)</p>
+                            </div>
+                            <div class="yue_div_dad">
+                                <img src="img/Icons_05.png" alt="">
+                            </div>
+                        </div>
+                        <div class="yue_dv_adi">
+                            <p>￥{{entity.account.capitalTotal}}</p>
+                        </div>
+                    </div>
+                </a>
+            </aside>
+        </section>
+        <section class="san-x">
+            <aside class="san-0" style="width:50%">
+                <div class="san-01">
+                    <p>累计收益(元)</p>
+                </div>
+                <div class="san-02">
+                    <p style="margin-left: 1em;">￥<b>{{entity.account.totalEarnings| replacewith:'.00':'0.00'}}</b></p>
+                </div>
+            </aside>
+            <aside class="san-00" style="width:50%">
+                <div class="san-01">
+                    <p>聚金宝(元)</p>
+                </div>
+                <div class="san-02">
+                    <p style="margin-left: 1em;">￥<b>{{entity.account.jujinbao| replacewith:'.00':'0.00'}}</b></p>
+                </div>
+            </aside>
+        </section>
+        
+        <section class="san-x">
+            <aside class="san-0" style="width:50%">
+                <div class="san-01">
+                    <p>待收金额(元)</p>
+                </div>
+                <div class="san-02">
+                    <p style="margin-left: 1em;">￥<b>{{entity.account.await| replacewith:'.00':'0.00'}}</b></p>
+                </div>
+            </aside>
+            <aside class="san-00" style="width:50%">
+                <div class="san-01">
+                    <p>可用余额(元)</p>
+                </div>
+                <div class="san-02">
+                    <p style="margin-left: 1em;">￥<b>{{entity.account.balance| replacewith:'.00':'0.00'}}</b></p>
+                </div>
+            </aside>
+        </section>
+        <section class="san-x">
+            <aside class="san-0" style="width:50%">
+                <div class="san-01">
+                    <p>冻结总额(元)</p>
+                </div>
+                <div class="san-02">
+                    <p style="margin-left: 1em;">￥<b>{{entity.account.frost| replacewith:'.00':'0.00'}}</b></p>
+                </div>
+            </aside>
+            <aside class="san-00" style="width:50%">
+                <div class="san-01">
+                    <p>回款续投(元)</p>
+                </div>
+                <div class="san-02">
+                    <p style="margin-left: 1em;">￥<b>{{entity.account.continueTotal| replacewith:'.00':'0.00'}}</b></p>
+                </div>
+            </aside>
+        </section>
+        <section class="san-x">
+            <aside class="san-0" style="width:50%">
+                <div class="san-01">
+                    <p>聚金币(元)</p>
+                </div>
+                <div class="san-02">
+                    <p style="margin-left: 1em;">￥<b>{{entity.account.coin| replacewith:'.00':'0.00'}}</b></p>
+                </div>
+            </aside>
+            <aside class="san-00" style="width:50%">
+                <div class="san-01">
+                    <p>聚金券(张)</p>
+                </div>
+                <div class="san-02">
+                    <p style="margin-left: 1em;"><b>{{entity.account.jujinQuan| replacewith:'.00':'0.00'}}</b></p>
+                </div>
+            </aside>
+        </section>
+        <section class="se_all">
+            <aside class="as_0">
+                <div class="shezhi_01">
+                    <a href="#/accountlog" class="shezhi_div_tddv">
+                        <div class="shezhi_div_tddvt">
+                            <p>资金记录</p>
+                        </div>
+                        <div class="shezhi_div_tddvh">
+                            <p></p>
+                        </div>
+                        <div class="shezhi_div_tddvf">
+                            <img src="img/yu.png" alt="">
+                        </div>
+                    </a>
+                </div>
+                <div class="shezhi_01">
+                    <a href="#/bankcard" class="shezhi_div_tddv">
+                        <div class="shezhi_div_tddvt">
+                            <p>银行卡管理</p>
+                        </div>
+                        <div class="shezhi_div_tddvh">
+                            <p></p>
+                        </div>
+                        <div class="shezhi_div_tddvf">
+                            <img src="img/yu.png" alt="">
+                        </div>
+                    </a>
+                </div>
+            </aside>
+        </section>
+    </div>
+    <div class="scrollable-footer">
+        <div id="jm-home-buttons" style="background-color:lightgray">
+            <a href="#/withdraw" style="width:47%" class="button reg">提现</a>
+            <a href="#/recharge" style="width:47%" class="button login">充值</a>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div ui-content-for="modals">
+        <div ng-include="'/m/jujin/common.html'"></div>
+    </div>
+</div>

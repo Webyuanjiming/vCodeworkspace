@@ -1,0 +1,118 @@
+<div ui-content-for="back">
+    <a href="javascript:window.history.go(-1)"><img src="/m/images/back_24.png" /></a>
+</div>
+<div ui-content-for="title">
+    <span>投资列表</span>
+</div>
+
+<div class="scrollable">
+
+    <div class="scrollable-content section" ng-controller="borrowController">
+
+        <ui-state id='activeTab' default='1'></ui-state>
+
+        <div class="btn-group justified nav-tabs">
+            <a ng-click="loadBorrowByType(1)" class="btn btn-default" ui-set="{'activeTab': 1}" ui-class="{'active':activeTab == 1}" ui-exclusion-group='myButtons'>理财</a>
+            <!--<a ng-click="loadBorrowByType(0)" class="btn btn-default" ui-set="{'activeTab': 0}" ui-class="{'active':activeTab == 0}" ui-exclusion-group='myButtons'>转让</a>-->
+        </div>
+
+
+        <div ng-if="type_borrows&&type_borrows.length>0&&(type==1||type==0)" id="jm-projects" class="project-list">
+            <div class="bd" style="padding-top: 2em;">
+                <a ng-href="#/borrowinfo?id={{entity.borrowId}}" ng-if="entity.type!=10&&(entity.type==2||entity.type==8)" class="project InBid" ng-repeat="entity in type_borrows">
+                    <div class="company">{{entity.title}}</div>
+                    <div class="process" style="width:80%">
+                        <div style="width: {{entity.accountScale}}%" class="balances {{getBorrowStyle(entity.status)}}">&nbsp;</div>
+                    </div>
+                    <div class="profit-c" style="width:80%">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><span class="profit">{{entity.borrowRate}}</span><span class="symbol">%</span></td>
+                                    <td ng-if="entity.awardScale>0"><span class="profit" style="font-size:12px"> 奖励{{formatData(entity.awardScale*12/entity.period)}}</span><span class="symbol">%</span></td>
+                                    <td ng-if="borrow.awardAccount>0"><span class="profit" style="font-size:12px"> 奖励{{formatData(entity.awardAccount)}}</span><span class="symbol">元</span></td>
+                                    <td><span class="maturity">{{entity.period}}</span><span class="symbol">个月</span></td>
+                                    <td><span class="amount">{{entity.borrowAccount/10000}}</span><span class="symbol">万</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div><div class="invest">
+                        <span class="{{getBorrowStyle(entity.status)}}">{{entity.statusMemo}}</span>
+                        <div class="{{getBorrowStyle(entity.status)}}">&nbsp;</div>
+                    </div>
+                </a>
+            </div>
+            <div ng-if="currentPage<totalPageCount" class="more" ng-click="loadMore()">加载更多项目</div>
+        </div>
+
+        <div ng-if="type_borrows&&type_borrows.length>0&&type==2" id="jm-projects" class="project-list">
+            <div class="bd" style="padding-top: 2em;">
+                
+                <a  ng-if="entity.type!=10&&(entity.type==2||entity.type==8)" href="#/borrowinfo?id={{entity.borrowId}}" class="project InBid" ng-repeat="entity in type_borrows">
+                    <div class="company">{{entity.title}}</div>
+                    <div class="process" style="width:80%">
+                        <div style="width: {{entity.accountScale}}%" class="balances {{getBorrowStyle(entity.status)}}">&nbsp;</div>
+                    </div>
+                    <div class="profit-c" style="width:80%">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><span class="profit">{{entity.borrowRate}}</span><span class="symbol">%</span></td>
+                                    <td ng-if="entity.awardScale>0"><span class="profit" style="font-size:12px"> 奖励{{formatData(entity.awardScale*12/entity.period)}}</span><span class="symbol">%</span></td>
+                                    <td ng-if="borrow.awardAccount>0"><span class="profit" style="font-size:12px"> 奖励{{formatData(entity.awardAccount)}}</span><span class="symbol">元</span></td>
+                                    <td><span class="maturity">{{entity.period}}</span><span class="symbol">个月</span></td>
+                                    <td><span class="amount">{{entity.borrowAccount/10000}}</span><span class="symbol">万</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div><div class="invest">
+                        <span class="{{getBorrowStyle(entity.status)}}">{{entity.statusMemo}}</span>
+                        <div class="{{getBorrowStyle(entity.status)}}">&nbsp;</div>
+                    </div>
+                </a>
+
+
+                <a  ng-if="entity.type!=10&&(entity.type==7)"  href="#/uplaninfo?id={{entity.borrowId}}" class="project InBid" ng-repeat="entity in type_borrows">
+                    <div class="company">{{entity.title}}</div>
+                    <div class="process" style="width:80%">
+                        <div style="width: {{entity.accountScale}}%" class="balances {{getBorrowStyle(entity.status)}}">&nbsp;</div>
+                    </div>
+                    <div class="profit-c" style="width:80%">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><span class="profit">{{entity.borrowRate}}</span><span class="symbol">%</span></td>
+                                    <td ng-if="entity.awardScale>0"><span class="profit" style="font-size:12px"> 奖励{{formatData(entity.awardScale*12/entity.period)}}</span><span class="symbol">%</span></td>
+                                    <td ng-if="borrow.awardAccount>0"><span class="profit" style="font-size:12px"> 奖励{{formatData(entity.awardAccount)}}</span><span class="symbol">元</span></td>
+                                    <td><span class="maturity">{{entity.period}}</span><span class="symbol">个月</span></td>
+                                    <td><span class="amount">{{entity.borrowAccount/10000}}</span><span class="symbol">万</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div><div class="invest">
+                        <span class="{{getBorrowStyle(entity.status)}}">{{entity.statusMemo}}</span>
+                        <div class="{{getBorrowStyle(entity.status)}}">&nbsp;</div>
+                    </div>
+                </a>
+
+
+
+
+
+
+            </div>
+            <div ng-if="currentPage<totalPageCount" class="more" ng-click="loadMore()">加载更多项目</div>
+        </div>
+
+        <div ng-if="!type_borrows||type_borrows.length<1" class="uninvested" style="text-align:center">
+            <div style="margin-top:20px">
+                <div class="prompt">暂无可用的项目,敬请期待!</div>
+                <a ui-turn-on='button2' ng-click="loadBorrowByType(1)" style="color: #ff8932" class="investnow">返回散标列表</a>
+            </div>
+        </div>
+    </div>
+
+    <div ui-content-for="modals">
+        <div ng-include="'/m/jujin/common.html'"></div>
+    </div>
+</div>

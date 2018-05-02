@@ -1,0 +1,369 @@
+﻿<div ui-content-for="back">
+    <a href="javascript:window.history.go(-1)"><img src="/m/images/back_24.png" /></a>
+</div>
+<div ui-content-for="title">
+    <span>{{borrow.title | limitTo : 12}}</span>
+</div>
+<div class="scrollable" ng-controller="borrowinfoController" style="background-color:#fff">
+    <div class="scrollable-content section" style="background-color: #f9f9f9;">
+        <div class="db">
+            <!--tabs start---------------------------------------------------------------------------->
+            <ui-state id='activeTab' default='1'></ui-state>
+            <div class="btn-group justified nav-tabs">
+                <a ui-set="{'activeTab': 1}"
+                   ui-class="{'active': activeTab == 1}" class="btn btn-default" ng-click="hideAccount()">项目详情</a>
+
+                <a ui-set="{'activeTab': 2}"
+                   ui-class="{'active': activeTab == 2}" class="btn btn-default" ng-click="loandZhaiQuan()">债权列表</a>
+
+                <a ui-set="{'activeTab': 3}"
+                   ui-class="{'active': activeTab == 3}" class="btn btn-default" ng-click='loadRecord()'>参投记录</a>
+
+                <a ui-set="{'activeTab': 4}"
+                   ui-class="{'active': activeTab == 4}" class="btn btn-default" ng-click="showAccount()">我的账户</a>
+            </div>
+            <!--tabs end ------------------------------------------------------------------------------>
+            <div id="jm-touch">
+                <div class="project-detail jm-tab">
+                    <!--tab 1 start------------------------------------------------------------------------>
+                    <div ui-if="activeTab == 1">
+                        <!--内容-one---->
+                        <div class="global-content">
+                            <div class="global-content-two">
+                                <div style="width:50%;">
+                                    <img src="/m/images/golbal-back01.png" />
+                                    <dl>
+                                        <dd class="global-c-dd">{{borrow.borrowAccountWait}}<b>元</b></dd>
+                                        <dd class="global-o-dd">可投金额</dd>
+                                    </dl>
+                                </div>
+                                <div style="width: 42%; margin-left:8%">
+                                    <img src="/m/images/gobal-back02.png">
+                                    <dl>
+                                        <dd class="global-i-dd">{{getBorrowRate(borrow)}}</dd>
+                                        <dd class="global-r-dd">{{getBorrowRateMemo(borrow)}}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            <div class="global-content-loading">
+                                <div class="global-load">
+                                    <div class="line-loading" style="width:{{ borrow.accountScale}}%">
+                                    </div>
+                                </div>
+                                <div class="global-load-text">
+                                    <span>当前进度<b>{{borrow.accountScale}}</b><i style="font-style: normal; color: #5F6969;">%</i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--内容-three---->
+                        <div class="global-time-title">
+                            <ul>
+                                <li>
+                                    <div>
+                                        <ul>
+                                            <li>
+                                                <div></div>
+                                            </li>
+                                            <li style="width:30%">
+                                                <div>截止时间</div>
+                                            </li>
+                                            <li style="width:60%">
+                                                <div>{{borrow.endTime}}</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div>
+                                        <ul>
+                                            <li>
+                                                <div></div>
+                                            </li>
+                                            <li>
+                                                <div>本期优选金额</div>
+                                            </li>
+                                            <li>
+                                                <div>{{borrow.borrowAccount/10000}}（万元）</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <li ng-if="borrow.awardScale>0">
+                                    <div>
+                                        <ul>
+                                            <li>
+                                                <div></div>
+                                            </li>
+                                            <li style="width:30%">
+                                                <div>年化奖励</div>
+                                            </li>
+                                            <li style="width:60%">
+                                                <div>{{borrow.awardScale*12/borrow.period}}%</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div>
+                                        <ul>
+                                            <li>
+                                                <div></div>
+                                            </li>
+                                            <li>
+                                                <div>最小投资金额</div>
+                                            </li>
+                                            <li>
+                                                <div>{{borrow.minTenderAccount}}（元）</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div>
+                                        <ul>
+                                            <li>
+                                                <div></div>
+                                            </li>
+                                            <li>
+                                                <div>最大投资金额</div>
+                                            </li>
+                                            <li>
+                                                <div>{{borrow.maxTenderAccount==0?'不限':borrow.maxTenderAccount }}{{borrow.maxTenderAccount==0?'':'（元）'}}</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--介绍----*---->
+                        <div class="global-icon-z">
+                            <a href="#" class="touch-icon-back-r">
+                            </a>
+                            <a href="#" class="touch-icon-text-r" style="color: #2C2C2C">
+                                聚金优选，为您而选
+                            </a>
+                        </div>
+
+                        <div class="global-icon-text">
+                            <dl>
+                                <dd>本金保障</dd>
+                                <dd>低门槛高收益</dd>
+                                <dd>智能分散投资</dd>
+                                <dd>信息安全透明</dd>
+                            </dl>
+                        </div>
+
+                        <!--收益处理----*---->
+                        <div class="global-icon-two">
+                            <a href="#" class="touch-icon-back-o">
+                            </a>
+                            <a href="#" class="touch-icon-text-o">
+                                收益处理
+                            </a>
+                        </div>
+
+                        <div class="global-icon-text-o">
+                            <dl>
+                                <dd>按月还息，到期还本</dd>
+                            </dl>
+                        </div>
+
+                        <div class="global-icon-z">
+                            <a href="#" class="touch-icon-contract-r">
+                            </a>
+                            <a href="./agreement/jujinyouxuancontract.html" target="_blank" class="touch-icon-text-r">
+                                聚金优选协议范本《协议》
+                            </a>
+                            <a href="#" class="touch-icon-home-r">
+                                >
+                            </a>
+                        </div>
+
+                        <!--费率说明----*---->
+                        <div class="global-icon-three">
+                            <a href="#" class="touch-icon-back-e">
+                            </a>
+                            <a href="#" class="touch-icon-text-e">
+                                费率说明
+                            </a>
+                        </div>
+
+                        <div class="global-icon-text-e">
+                            <dl>
+                                <dd>非VIP投资人收取<b>5%</b>收益管理费</dd>
+                                <dd>VIP投资人免收益管理费</dd>
+                            </dl>
+                        </div>
+
+
+                        <!--聚金优选介绍-------->
+
+                        <div class="global-icon-four">
+                            <a href="#" class="touch-icon-back-i">
+                            </a>
+                            <a class="touch-icon-text-i">
+                                聚金优选介绍
+                            </a>
+                        </div>
+
+                        <div class="global-icon-text-i">
+                            <div>
+                                <span>
+                                    &nbsp;聚金优选是聚金资本针对出借人设计并推出的一种债权组合式理财产品，出借人通过聚金优选自动将资金分散投资到聚金资本平台上的不同优质标的。聚金优选采用智能分散投标、循环出借的方式，保证投资风险最低、收益最大化，同时对出借人公布所投标的详情，100%信息安全透明。
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--tab 1 end------------------------------------------------------------------------>
+                    <!--tab 2 start---------------------------------------------------------------------->
+                    <div ui-if="activeTab == 2" id="jm-investments" class="jm-tab" style="z-index:5">
+                        <div class="bd">
+                            <div class="Repayment tab selected">
+
+                                <div class="projects">
+                                    <div class="investment" ng-repeat="item in items">
+                                        <a href="#/borrowinfo?id={{item.borrowId}}" class="project InBid">
+                                            <div class="tit box"><span>{{item.borrowTitle}}</span><span style="float: right;">{{item.memo|isnull:'结束'}}</span></div>
+                                            <div class="amounts box">
+                                                <div class="amount"><span>{{item.account|isnull:'--'}}</span><span class="label">总额(元)</span></div>
+                                                <div class="amount"><span>{{item.validateAccount|isnull:'--'}}</span><span class="label">参投金额(元)</span></div>
+                                                <div class="amount"><span>{{item.time|isnull:'--'}}</span><span class="label">时间(元)</span></div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="project-list" ng-if="currentPage<totalPageCount">
+                                    <div class="more" ng-click="loadZhaiQuanRecordMore()">加载更多项目</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--tab 2 end------------------------------------------------------------------------>
+                    <!--tab 3 start---------------------------------------------------------------------->
+                    <div ui-if="activeTab == 3" style="z-index:5" id="jm-investments" class="jm-tab">
+                        <div class="bd">
+                            <div class="projects">
+                                <div class="recove" style="height:auto">
+                                    <div class="amounts">
+                                        <div class="amount" style="width:30%">
+                                            <span class="label">投资人</span>
+                                        </div>
+                                        <div class="amount" style="width:30%">
+                                            <span class="label">有效金额</span>
+                                        </div>
+                                        <div class="amount" style="width:40%">
+                                            <span class="label">投资时间</span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+
+                                    <div class="amounts" ng-repeat="record in records">
+                                        <div class="amount" style="width:30%">
+                                            <span style="text-align:center">{{record.nickName}}</span>
+                                        </div>
+
+                                        <div class="amount" style="width:30%">
+                                            <span style="text-align:center">{{record.account}}</span>
+                                        </div>
+                                        <div class="amount" style="width:40%">
+                                            <span style="text-align:center">{{record.time}}</span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div ng-if="record_current<record_totalPage" class="more" ng-click="loadTenderRecordMore()">加载更多投资记录</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--tab 3 end------------------------------------------------------------------------>
+                    <!--tab 4 start---------------------------------------------------------------------->
+                    <div class="repayments selected tab" ui-if="activeTab == 4">
+                        <div class="bd">
+                            <h3>账户信息</h3>
+                            <div class="span6">
+                                <dl class="dl-horizontal">
+                                    <dt>您的账户余额</dt>
+                                    <dd>{{account.balance}}</dd>
+                                    <dt ng-if="account.coin">您的聚金币</dt>
+                                    <dd ng-if="account.coin">{{account.coin}}</dd>
+                                    <dt>冻结金额</dt>
+                                    <dd>{{account.frost}}</dd>
+                                    <dt>回款续投总额</dt>
+                                    <dd>{{account.continueTotal}}</dd>
+                                    <dt>可投金额（元）</dt>
+                                    <dd>
+                                        <span id="borrowAccountWait">{{borrow.borrowAccountWait}}</span>
+                                    </dd>
+                                    <dt ng-if="borrow.status==8&&borrow.directionalPwd">定向密码</dt>
+                                    <dd ng-if="borrow.status==8&&borrow.directionalPwd">
+                                        <div class="amount-c">
+                                            <input placeholder="定向密码" type="password" required="" id="directPwd" style="font-size: 20px; width: 80%">
+                                        </div>
+                                    </dd>
+                                    <dt ng-if="list&&list.length>0">可用聚金券</dt>
+                                    <dd ng-if="list&&list.length>0">
+                                        <div class="amount-c">
+                                            <select id="ticketId">
+                                                <option value="{{item.ticketId}}" ng-repeat="item in list">{{item.name}}</option>
+                                            </select>
+                                        </div>
+                                    </dd>
+
+                                    <dt ng-show="ShowJujinBi()">使用聚金币</dt>
+                                    <dd ng-show="ShowJujinBi()"><span id="labjujininfo"></span></dd>
+
+                                    <dt ng-if="showInvest()">投资金额(元)</dt>
+                                    <dd ng-if="showInvest()">
+                                        <div class="amount-c">
+                                            <div>
+                                                <input placeholder="投资金额" value="0.00" type="number" name="amount" required="" id="amount" style="width: 70%; float: left; font-size: 20px">
+                                                <a href="" ng-click="setAll()" class="btn" style="float: right; background-color: #ff7b00; color: #fff; font-size: 16px; height: auto; padding: 3px">全投</a>
+                                            </div>
+                                        </div>
+                                    </dd>
+
+
+
+
+                                </dl>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div ng-if="showInvest()" id="jm-home-buttons" style="margin-top:20px">
+                                <button id="btnInvest" ng-click="invest()" style=" width:100%;font-size:18px;color:#fff" class=" btn btn-block button login">确定投资</button>
+                            </div>
+                        </div>
+                        <!--tab 4 end------------------------------------------------------------------------>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id='jm-creditassign-detail' ng-if="showToolbar()" class="scrollable-footer" style="margin-top:15px;">
+        <div ng-if="!showInvest()" class="invest-btn-c"><a href="#/recharge" class="uninvestable">余额不足，<span class="linkcss">&nbsp;立即充值&nbsp;</span></a></div>
+        <div ng-if="showInvest()" class="btn-group justified nav-tabs">
+            <div class="btn btn-block btn-lg" style="width: 10%; float: left; background-color: #ff7b00;">
+                <a href="#/calc?rate={{borrow.borrowRate}}&scale={{borrow.awardScale*12/borrow.period}}&account={{borrow.awardAccount}}&period={{borrow.period}}"> <span class="text-center" style="color: #fff;">计算器</span></a>
+            </div>
+
+            <div class="btn btn-block btn-lg" style="width: 85%; float: left; background-color: #0caffe;color:#fff" ui-set="{'activeTab': 4}" ui-turn-on='button4'>
+                <span class="text-center">立即投资</span>
+            </div>
+        </div>
+    </div>
+
+    <div ui-content-for="modals">
+        <div ng-include="'/m/jujin/common.html'"></div>
+    </div>
+</div>
+
+
+
